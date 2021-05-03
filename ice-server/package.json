@@ -1,0 +1,11 @@
+{
+  "name": "ice-server",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "node-turn": "^0.0.6"
+  }
+}

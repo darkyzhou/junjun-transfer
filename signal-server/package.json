@@ -1,0 +1,14 @@
+{
+  "name": "signal-server",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "devDependencies": {
+    "prettier": "^2.2.1"
+  },
+  "dependencies": {
+    "socket.io": "^4.0.1"
+  }
+}

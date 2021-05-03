@@ -3,9 +3,17 @@
   "trailingComma": "none",
   "printWidth": 120,
   "htmlWhitespaceSensitivity": "ignore",
-  "svelteSortOrder": "options-styles-scripts-markup",
-  "svelteStrictMode": true,
-  "svelteBracketNewLine": false,
-  "svelteAllowShorthand": false,
-  "svelteIndentScriptAndStyle": true
+  "overrides": [
+    {
+      "files": "*.svelte",
+      "options": {
+        "parser": "svelte",
+        "svelteSortOrder": "options-styles-scripts-markup",
+        "svelteStrictMode": true,
+        "svelteBracketNewLine": false,
+        "svelteAllowShorthand": false,
+        "svelteIndentScriptAndStyle": true
+      }
+    }
+  ]
 }

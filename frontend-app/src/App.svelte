@@ -1,3 +1,6 @@
+<style>
+</style>
+
 <script>
   import { io } from 'socket.io-client';
   import { onMount } from 'svelte';
@@ -15,7 +18,7 @@
 
   async function initSender(socket) {
     const bootstrapper = new SenderDataChannelBootstrapper(socket, 'test');
-    const { connection, channel } =  await bootstrapper.bootstrap();
+    const { connection, channel } = await bootstrapper.bootstrap();
     establishedSenderConnection = connection;
     establishedDataChannel = channel;
     // TODO: handle error
@@ -53,10 +56,12 @@
     <p>ID: {id}</p>
   {:else}
     <p>send mode:</p>
-    <input type="file" id='files' on:change={(event) => {selectedFile = event.target.files[0];}} />
-    <button disabled="{!selectedFile}" on:click={sendFile}>Submit</button>
+    <input
+      type="file"
+      id="files"
+      on:change="{(event) => {
+        selectedFile = event.target.files[0];
+      }}" />
+    <button disabled="{!selectedFile}" on:click="{sendFile}">Submit</button>
   {/if}
 </main>
-
-<style>
-</style>

@@ -12,15 +12,14 @@
 
   const id = new URLSearchParams(window.location.search).get('token');
   const isSender = !id;
-  let selectedFile;
-  let establishedDataChannel;
-  let establishedSenderConnection;
+
+  let selectedFile = null;
+  let fileSender = null;
 
   async function initSender(socket) {
     const bootstrapper = new SenderDataChannelBootstrapper(socket, 'test');
     const { connection, channel } = await bootstrapper.bootstrap();
-    establishedSenderConnection = connection;
-    establishedDataChannel = channel;
+    fileSender = new FileSender(connection, channel);
     // TODO: handle error
   }
 
@@ -35,8 +34,8 @@
   }
 
   async function sendFile() {
-    const sender = new FileSender(establishedSenderConnection, establishedDataChannel);
-    await sender.send(selectedFile);
+    // TODO: prevent sending empty files
+    await fileSender.send();
     // TODO: handle error
   }
 
@@ -56,12 +55,7 @@
     <p>ID: {id}</p>
   {:else}
     <p>send mode:</p>
-    <input
-      type="file"
-      id="files"
-      on:change="{(event) => {
-        selectedFile = event.target.files[0];
-      }}" />
-    <button disabled="{!selectedFile}" on:click="{sendFile}">Submit</button>
+    <input type="file" id="files" on:change="{(event) => (selectedFile = event.target.files[0])}" />
+    <button disabled="{!selectedFile || !fileSender}" on:click="{sendFile}">Submit</button>
   {/if}
 </main>

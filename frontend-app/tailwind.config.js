@@ -1,12 +1,12 @@
 module.exports = {
-  mode: 'jit',
-  purge: ['./index.html', './src/**/*.svelte'],
-  darkMode: false, // or 'media' or 'class'
+  purge: {
+    enabled: process.env.NODE_ENV === 'production',
+    safeList: [],
+    content: ['./index.html', './src/**/*.jsx', './src/**/*.js']
+  },
   theme: {
     extend: {}
   },
-  variants: {
-    extend: {}
-  },
+  variants: {},
   plugins: []
 };

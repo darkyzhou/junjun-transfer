@@ -1,0 +1,11 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+body {
+  font-weight: 300;
+}
+
+.font-zcool {
+  font-family: 'ZCOOL QingKe HuangYou', cursive;
+}

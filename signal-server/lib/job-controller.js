@@ -12,7 +12,7 @@ class JobController {
   init() {
     this.senderWs.on('connection', (socket) =>
       this.#handleError(socket, () => {
-        const { jobId } = socket.query;
+        const { jobId } = socket.handshake.query;
         this.#checkJobId(jobId);
         if (this.jobMap.has(jobId)) {
           throw new Error('传输码对应的传输已经在进行');
@@ -20,18 +20,19 @@ class JobController {
 
         const job = new Job(jobId, () => this.#onJobDestroy(jobId));
         job.setSenderSocket(socket);
+        this.jobMap.set(jobId, job);
       })
     );
     this.receivedWs.on('connection', (socket) =>
       this.#handleError(socket, () => {
-        const { jobId } = socket.query;
+        const { jobId } = socket.handshake.query;
         this.#checkJobId(jobId);
         if (!this.jobMap.has(jobId)) {
           throw new Error('传输码对应的传输不存在');
         }
 
         const job = this.jobMap.get(jobId);
-        job.setReceiverSocket(jobId);
+        job.setReceiverSocket(socket);
       })
     );
   }

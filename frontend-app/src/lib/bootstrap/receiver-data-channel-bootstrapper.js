@@ -2,9 +2,8 @@ import { makeStunConnection } from './stun';
 import { bootstrapIce } from './bootstrap-ice';
 
 export class ReceiverDataChannelBootstrapper {
-  constructor(signalSocket, token) {
+  constructor(signalSocket) {
     this.signalSocket = signalSocket;
-    this.token = token;
   }
 
   bootstrap() {
@@ -21,10 +20,9 @@ export class ReceiverDataChannelBootstrapper {
   async #doBootstrap(resolve) {
     this.connection = makeStunConnection();
     this.connection.ondatachannel = ({ channel }) => resolve(channel);
-    bootstrapIce(this.token, this.connection, this.signalSocket, false);
+    bootstrapIce(this.connection, this.signalSocket);
 
-    this.signalSocket.on('RECEIVER_GET_OFFER_RESPONSE', ({ offer }) => this.#handleOffer(offer));
-    this.signalSocket.emit('RECEIVER_GET_OFFER', { token: this.token });
+    this.signalSocket.on('SIGNAL_OFFER', ({ offer }) => this.#handleOffer(offer));
   }
 
   async #handleOffer(offer) {
@@ -33,6 +31,6 @@ export class ReceiverDataChannelBootstrapper {
     await this.connection.setRemoteDescription(new RTCSessionDescription(offer));
     const answer = await this.connection.createAnswer();
     await this.connection.setLocalDescription(answer);
-    this.signalSocket.emit('RECEIVER_SUBMIT_ANSWER', { token: this.token, answer });
+    this.signalSocket.emit('SIGNAL_ANSWER', { answer });
   }
 }

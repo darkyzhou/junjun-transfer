@@ -3,9 +3,8 @@ import { makeStunConnection } from './stun';
 import { bootstrapDataChannel } from './bootstrap-data-channel';
 
 export class SenderDataChannelBootstrapper {
-  constructor(signalSocket, token) {
+  constructor(signalSocket) {
     this.signalSocket = signalSocket;
-    this.token = token;
   }
 
   bootstrap() {
@@ -26,15 +25,15 @@ export class SenderDataChannelBootstrapper {
       console.debug('[sender-connection-bootstrap] channel established');
       resolve({ connection: this.connection, channel: this.channel });
     };
-    bootstrapIce(this.token, this.connection, this.signalSocket, true);
+    bootstrapIce(this.connection, this.signalSocket);
 
-    this.signalSocket.on('SENDER_RECEIVE_ANSWER', async ({ answer }) => {
+    this.signalSocket.on('SIGNAL_ANSWER', async ({ answer }) => {
       console.debug('[sender-connection-bootstrap] received answer:', answer);
       await this.connection.setRemoteDescription(new RTCSessionDescription(answer));
     });
     const offer = await this.connection.createOffer();
     await this.connection.setLocalDescription(offer);
 
-    this.signalSocket.emit('SENDER_SUBMIT_OFFER', { token: this.token, offer });
+    this.signalSocket.emit('SIGNAL_OFFER', { offer });
   }
 }

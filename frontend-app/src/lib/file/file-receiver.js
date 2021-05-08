@@ -19,7 +19,6 @@ export class FileReceiver {
   }
 
   async *receiveFiles() {
-    // TODO: stop on closed
     while (true) {
       yield await this.receiveSingleFile();
     }

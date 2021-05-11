@@ -1,23 +1,32 @@
 import React from 'react';
-import { Sender } from './components/Sender';
+import { SenderInitialPanel } from './components/SenderInitialPanel';
+import { ReceiverPanel } from './components/ReceiverPanel';
+import { Status } from './components/Status';
+import { SenderFilePanel } from './components/SenderFilePanel';
 
 const App = ({ jobId, isSender }) => {
   return (
-    <main className="bg-gray-700 min-h-screen flex flex-col">
+    <div className="bg-gray-700 min-h-screen flex flex-col justify-between">
       <div className="flex-none text-center text-gray-300 my-8">
         <h2 className="text-gray-200 font-zcool text-8xl tracking-wider mb-2">俊俊快传</h2>
-        <p>利用 WebRTC 技术实现的浏览器点对点文件传输工具</p>
+        <p className="text-xl text-gray-400 tracking-wider">一个基于 WebRTC 技术的浏览器点对点文件传输工具</p>
       </div>
-      <div className="w-screen flex justify-between p-12">
-        <div className="text-center border-dashed border-4 border-gray-500 px-8 py-2">
-          <h4 className="text-gray-300 font-zcool text-3xl tracking-wide">发送文件</h4>
-
+      <main className="flex-1 flex justify-between p-12">
+        <div className="flex-none">
+          <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 text-center">发送文件</h4>
+          <SenderFilePanel />
         </div>
-        <div className="text-center border-dashed border-4 border-gray-500 px-8 py-2">
-          <h4 className="text-gray-300 font-zcool text-3xl tracking-wide">接收文件</h4>
+        <div className="flex-1">
+          <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 text-center">当前状态</h4>
+          <Status />
         </div>
-      </div>
-    </main>
+        <div className="flex-none">
+          <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 text-center">接收文件</h4>
+          <ReceiverPanel />
+        </div>
+      </main>
+      <footer className="flex-none text-center text-gray-400 p-2">Made with ❤️ by darkyzhou</footer>
+    </div>
   );
 };
 

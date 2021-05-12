@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { PanelContainer } from './PanelContainer';
 
-export const SenderInitialPanel = () => {
+export const SenderInstructionPanel = () => {
   const onSelectFile = useCallback(() => {}, []);
 
   return (

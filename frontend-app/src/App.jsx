@@ -1,5 +1,5 @@
 import React from 'react';
-import { SenderInitialPanel } from './components/SenderInitialPanel';
+import { SenderInstructionPanel } from './components/SenderInstructionPanel';
 import { ReceiverPanel } from './components/ReceiverPanel';
 import { Status } from './components/Status';
 import { SenderFilePanel } from './components/SenderFilePanel';
@@ -14,7 +14,7 @@ const App = ({ jobId, isSender }) => {
       <main className="flex-1 flex justify-between p-12">
         <div className="flex-none">
           <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 text-center">发送文件</h4>
-          <SenderFilePanel />
+          <SenderFilePanel file={new File([0,0,0,0,0,0,0,0,0], 'test.txt')} />
         </div>
         <div className="flex-1">
           <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 text-center">当前状态</h4>

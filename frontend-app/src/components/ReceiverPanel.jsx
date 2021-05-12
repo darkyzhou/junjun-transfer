@@ -8,7 +8,7 @@ export const ReceiverPanel = () => {
     if (canvasRef.current) {
       QRCode.toCanvas(canvasRef.current, 'text', {
         margin: 1,
-        width: 12 * 16
+        width: 12 * 12
       });
     }
   }, [canvasRef.current]);

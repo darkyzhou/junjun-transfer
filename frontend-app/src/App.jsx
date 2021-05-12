@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SenderInstructionPanel } from './components/SenderInstructionPanel';
-import { ReceiverPanel } from './components/ReceiverPanel';
+import { ReceiverFilePanel } from './components/ReceiverFilePanel';
 import { Status } from './components/Status';
 import { SenderFilePanel } from './components/SenderFilePanel';
 
 const App = ({ jobId, isSender }) => {
+  const [selectedFile, setSelectedFile] = useState(null);
+
   return (
     <div className="bg-gray-700 min-h-screen flex flex-col justify-between">
       <div className="flex-none text-center text-gray-300 my-8">
@@ -14,7 +16,8 @@ const App = ({ jobId, isSender }) => {
       <main className="flex-1 flex justify-between p-12">
         <div className="flex-none">
           <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 text-center">发送文件</h4>
-          <SenderFilePanel file={new File([0,0,0,0,0,0,0,0,0], 'test.txt')} />
+          {!selectedFile && <SenderInstructionPanel onSelectFile={(file) => setSelectedFile(file)} />}
+          {selectedFile && <SenderFilePanel file={selectedFile} onCancel={() => setSelectedFile(null)} />}
         </div>
         <div className="flex-1">
           <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 text-center">当前状态</h4>
@@ -22,7 +25,7 @@ const App = ({ jobId, isSender }) => {
         </div>
         <div className="flex-none">
           <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 text-center">接收文件</h4>
-          <ReceiverPanel />
+          <ReceiverFilePanel />
         </div>
       </main>
       <footer className="flex-none text-center text-gray-400 p-2">Made with ❤️ by darkyzhou</footer>

@@ -1,27 +1,7 @@
 import React, { useMemo } from 'react';
 import { PanelContainer } from './PanelContainer';
 import { Button } from './Button';
-
-const DEFAULT_ICON = (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    xmlnsXlink="http://www.w3.org/1999/xlink"
-    className="w-36 h-36"
-    aria-hidden="true"
-    role="img"
-    preserveAspectRatio="xMidYMid meet"
-    viewBox="0 0 24 24"
-  >
-    <path
-      d="M13 9h5.5L13 3.5V9M6 2h8l6 6v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4c0-1.11.89-2 2-2m9 16v-2H6v2h9m3-4v-2H6v2h12z"
-      fill="currentColor"
-    ></path>
-  </svg>
-);
-
-const FILE_TYPE_ICONS = {
-  'plain/text': DEFAULT_ICON
-};
+import { FileIcon } from './FileIcon';
 
 export const SenderFilePanel = ({ file, sending, onConfirm, onCancel }) => {
   const fileSizeText = useMemo(() => {
@@ -29,11 +9,11 @@ export const SenderFilePanel = ({ file, sending, onConfirm, onCancel }) => {
     if (size < 1024) {
       return `${size} Bytes`;
     } else if ((size /= 1024) < 1024) {
-      return `${size} KiB`;
+      return `${size.toFixed(2)} KiB`;
     } else if ((size /= 1024) < 1024) {
-      return `${size} MiB`;
+      return `${size.toFixed(2)} MiB`;
     } else {
-      return `${size} GiB`;
+      return `${size.toFixed(2)} GiB`;
     }
   }, [file.size]);
 
@@ -48,10 +28,9 @@ export const SenderFilePanel = ({ file, sending, onConfirm, onCancel }) => {
     <PanelContainer>
       <div className="w-full h-full rounded-md p-2 text-center text-gray-300 flex flex-col justify-between">
         <div className="flex-1 flex flex-col items-center justify-evenly">
-          {DEFAULT_ICON}
+          <FileIcon />
           <div>
             <p>{file.name}</p>
-            <p>{file.type}</p>
             <p>{fileSizeText}</p>
           </div>
         </div>

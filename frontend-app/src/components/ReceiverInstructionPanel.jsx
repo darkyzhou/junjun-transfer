@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { PanelContainer } from './PanelContainer';
 import QRCode from 'qrcode';
 
-export const ReceiverPanel = () => {
+export const ReceiverInstructionPanel = () => {
   const canvasRef = useRef(null);
   useEffect(() => {
     if (canvasRef.current) {

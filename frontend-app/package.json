@@ -6,6 +6,7 @@
     "build": "cross-env NODE_ENV=production vite build"
   },
   "dependencies": {
+    "nanoid": "^3.1.23",
     "qrcode": "^1.4.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

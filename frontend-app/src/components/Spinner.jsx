@@ -1,10 +1,10 @@
 import React from 'react';
 
-export const Spinner = () => (
+export const Spinner = ({ className }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
-    className="animate-spin"
+    className={`animate-spin ${className}`}
     aria-hidden="true"
     role="img"
     preserveAspectRatio="xMidYMid meet"

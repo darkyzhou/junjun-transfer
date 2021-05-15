@@ -1,8 +1,8 @@
 import { makeStunConnection } from './stun';
 import { bootstrapIce } from './bootstrap-ice';
 
-const EVENT_ANSWER_SENT = 'answer-sent';
-const EVENT_CHANNEL_OPEN = 'channel-open';
+export const EVENT_ANSWER_SENT = 'answer-sent';
+export const EVENT_CHANNEL_OPEN = 'channel-open';
 
 export class ReceiverDataChannelBootstrapper {
   constructor(signalSocket) {

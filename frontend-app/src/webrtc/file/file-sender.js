@@ -11,8 +11,8 @@ export class FileSender {
 
     const meta = {
       totalBytes: dataBuffer.byteLength,
-      fileName: file.name,
-      fileType: file.type
+      name: file.name,
+      type: file.type
     };
     console.debug('[file-sender] sending meta', meta);
     await this.transmitter.send(encodeMetaMessage(meta));

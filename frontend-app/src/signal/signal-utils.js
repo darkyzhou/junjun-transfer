@@ -1,16 +1,16 @@
 import { nanoid } from 'nanoid';
 import { io } from 'socket.io-client';
 
-function makeJobId() {
+export function makeJobId() {
   return nanoid(12);
 }
 
-export function makeSenderSocket() {
+export function makeSenderSocket(jobId) {
   return io({
     transports: ['websocket'],
     path: '/signal/sender',
     query: {
-      jobId: makeJobId()
+      jobId
     }
   });
 }

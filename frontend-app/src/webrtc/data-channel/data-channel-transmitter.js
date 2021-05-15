@@ -72,8 +72,7 @@ export class DataChannelTransmitter {
       bufferedAmount += length;
       this.target.dispatchEvent(
         new CustomEvent(EVENT_TRANSMISSION_PROGRESS, {
-          bytesTransmitted: this.bytesTransmitted,
-          totalBytes: this.totalBytes
+          detail: { bytesTransmitted: this.bytesTransmitted, totalBytes: this.totalBytes }
         })
       );
 

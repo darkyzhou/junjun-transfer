@@ -1,26 +1,28 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { SenderInstructionPanel } from './panel/SenderInstructionPanel';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Status } from './Status';
-import { ConnectionStatusIndicatorCard } from './ConnectionStatusIndicatorCard';
+import { ConnectionStatusIndicatorCard } from './card/ConnectionStatusIndicatorCard';
 import {
   EVENT_ANSWER_RECEIVED,
   EVENT_CHANNEL_OPEN,
   SenderDataChannelBootstrapper
 } from '../webrtc/bootstrap/sender-data-channel-bootstrapper';
 import { ReceiverInstructionPanel } from './panel/ReceiverInstructionPanel';
-import { ReceiverFileCard } from './ReceiverFileCard';
+import { ReceiverFileCard } from './card/ReceiverFileCard';
 import { FileSender } from '../webrtc/file/file-sender';
 import {
   EVENT_TRANSMISSION_COMPLETED,
   EVENT_TRANSMISSION_PROGRESS
 } from '../webrtc/data-channel/data-channel-transmitter';
-import { SenderSelectedFileCard } from './SenderSelectedFileCard';
+import { SenderSelectedFileCard } from './card/SenderSelectedFileCard';
+import { SenderInstructionPanel } from './panel/SenderInstructionPanel';
 
-export const SenderMain = ({ socket }) => {
+export const SenderMain = ({ socket, jobId }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileSender, setFileSender] = useState(null);
   const [transferStatus, setTransferStatus] = useState('initial');
   const [transferProgress, setTransferProgress] = useState(null);
+
+  const receiverUrl = useMemo(() => `${window.location.href}?job_id=${window.encodeURIComponent(jobId)}`, [jobId]);
 
   const onConfirm = useCallback(() => {
     setTransferStatus('transferring');
@@ -61,7 +63,7 @@ export const SenderMain = ({ socket }) => {
             canSend={!!fileSender}
             sending={transferStatus === 'transferring'}
             onCancel={() => setSelectedFile(null)}
-            onConfirm={onConfirm()}
+            onConfirm={onConfirm}
           />
         )}
       </div>
@@ -71,7 +73,7 @@ export const SenderMain = ({ socket }) => {
       </div>
       <div className="flex-none">
         <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 text-center">接收文件</h4>
-        {transferStatus === 'initial' && <ReceiverInstructionPanel />}
+        {transferStatus === 'initial' && <ReceiverInstructionPanel url={receiverUrl} />}
         {transferStatus === 'connected' && (
           <ConnectionStatusIndicatorCard
             spinner={true}

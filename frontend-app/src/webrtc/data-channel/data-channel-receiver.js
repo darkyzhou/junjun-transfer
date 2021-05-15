@@ -1,7 +1,7 @@
-const EVENT_PHRASE_STARTED = 'phrase-started';
-const EVENT_RECEIVE_PROGRESS = 'receive-progress';
-const EVENT_PHRASE_COMPLETED = 'phrase-completed';
-const EVENT_CHANNEL_CLOSED = 'channel-closed';
+export const EVENT_PHRASE_STARTED = 'phrase-started';
+export const EVENT_RECEIVE_PROGRESS = 'receive-progress';
+export const EVENT_PHRASE_COMPLETED = 'phrase-completed';
+export const EVENT_CHANNEL_CLOSED = 'channel-closed';
 
 export class DataChannelReceiver {
   constructor(channel) {
@@ -19,7 +19,7 @@ export class DataChannelReceiver {
     this.target.removeEventListener(eventName, listener);
   }
 
-  async receive(bytesToReceive) {
+  receive(bytesToReceive) {
     return new Promise(async (resolve, reject) => {
       try {
         await this.#doReceive(bytesToReceive, resolve);

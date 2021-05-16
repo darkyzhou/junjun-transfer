@@ -11,14 +11,15 @@ import {
   ReceiverDataChannelBootstrapper
 } from '../webrtc/bootstrap/receiver-data-channel-bootstrapper';
 import { EVENT_FILE_RECEIVED, EVENT_META_RECEIVED, FileReceiver } from '../webrtc/file/file-receiver';
-import { EVENT_PHRASE_COMPLETED, EVENT_RECEIVE_PROGRESS } from '../webrtc/data-channel/data-channel-receiver';
 import { saveArraybufferAsFile } from '../utils/save-arraybuffer-as-file';
+import { EVENT_TRANSFER_SPEED_UPDATE } from '../webrtc/file/transfer-speed-monitor';
+import { FileInfo } from './shared/FileInfo';
 
 export const ReceiverMain = ({ socket }) => {
-  const [transferStatus, setTransferStatus] = useState('initial');
-  const [transferProgress, setTransferProgress] = useState(0);
   const [fileMeta, setFileMeta] = useState(null);
   const [fileReceiver, setFileReceiver] = useState(null);
+  const [transferStatus, setTransferStatus] = useState('initial');
+  const [transferStats, setTransferStats] = useState({ speed: 0, progress: 0, current: 0 });
 
   useEffect(() => {
     const bootstrapper = new ReceiverDataChannelBootstrapper(socket);
@@ -41,15 +42,27 @@ export const ReceiverMain = ({ socket }) => {
     if (!fileReceiver) {
       return;
     }
+    const {
+      receiver: { speedMonitor }
+    } = fileReceiver;
     fileReceiver.addEventListener(EVENT_META_RECEIVED, ({ detail: { meta } }) => {
       setTransferStatus('transferring');
       setFileMeta(meta);
     });
     fileReceiver.addEventListener(EVENT_FILE_RECEIVED, () => setTransferStatus('completed'));
-    const { receiver } = fileReceiver;
-    receiver.addEventListener(EVENT_RECEIVE_PROGRESS, ({ detail: { receivedBytes, totalBytes } }) =>
-      setTransferProgress((receivedBytes / totalBytes).toFixed(0))
-    );
+    speedMonitor.addEventListener(EVENT_TRANSFER_SPEED_UPDATE, ({ detail: { avgSpeed, speed, current, goal } }) => {
+      setTransferStats({
+        speed: speed <= 0 ? avgSpeed : speed,
+        progress: Math.floor((100 * current) / goal),
+        current
+      });
+      socket.emit('EVENT_RECEIVER_PROGRESS', {
+        avgSpeed,
+        speed,
+        current,
+        goal
+      });
+    });
   }, [fileReceiver]);
 
   return (
@@ -67,19 +80,13 @@ export const ReceiverMain = ({ socket }) => {
           <ConnectionStatusIndicatorCard spinner={false} message={'发送方开始发送文件，等待元数据...'} />
         )}
         {transferStatus === 'transferring' && fileMeta && (
-          <CardContainer bottom={'正在发送...'}>
-            <FileIcon />
-            <div>
-              <p>{fileMeta.name}</p>
-            </div>
+          <CardContainer bottom={<div className="text-center text-sm p-2">正在发送...</div>}>
+            <FileInfo name={fileMeta.name} size={fileMeta.size} type={fileMeta.type} />
           </CardContainer>
         )}
         {transferStatus === 'completed' && (
-          <CardContainer bottom={'发送成功'}>
-            <FileIcon />
-            <div>
-              <p>{fileMeta.name}</p>
-            </div>
+          <CardContainer bottom={<div className="text-center text-sm p-2">发送完成</div>}>
+            <FileInfo name={fileMeta.name} size={fileMeta.size} type={fileMeta.type} />
           </CardContainer>
         )}
       </div>
@@ -90,7 +97,15 @@ export const ReceiverMain = ({ socket }) => {
       <div className="flex-none">
         <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 text-center">接收文件</h4>
         {!fileMeta && <PanelContainer className="text-gray-400">等待中...</PanelContainer>}
-        {fileMeta && <ReceiverFileCard fileName={fileMeta.name} progress={transferProgress} />}
+        {fileMeta && (
+          <ReceiverFileCard
+            fileName={fileMeta.name}
+            receivedSize={transferStats.current}
+            type={fileMeta.type}
+            progress={transferStats.progress}
+            speed={transferStats.speed}
+          />
+        )}
       </div>
     </main>
   );

@@ -55,7 +55,6 @@ export class DataChannelTransmitter {
           }
         })
       );
-      console.debug('[data-channel-transmitter] buffered amount is low, now continue sending data');
       this.#doSendDataLoop();
     };
     this.#doSendDataLoop();
@@ -81,9 +80,6 @@ export class DataChannelTransmitter {
           new CustomEvent(EVENT_TRANSMISSION_PAUSED, {
             detail: { bufferedAmount }
           })
-        );
-        console.debug(
-          `[data-channel-transmitter] transmission paused due to channel.bufferedAmount being over ${this.highWaterMark}`
         );
         break;
       }

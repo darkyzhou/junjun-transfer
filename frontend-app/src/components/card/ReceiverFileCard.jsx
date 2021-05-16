@@ -1,21 +1,22 @@
 import React from 'react';
-import { FileIcon } from '../FileIcon';
 import { ProgressBar } from '../ProgressBar';
 import { CardContainer } from './CardContainer';
+import { bytesPerSecondsToHumanFriendlyText } from '../../utils/size';
+import { FileInfo } from '../shared/FileInfo';
 
-export const ReceiverFileCard = ({ fileName, progress }) => {
+export const ReceiverFileCard = ({ fileName, receivedSize, type, progress, speed }) => {
   return (
     <CardContainer
       bottom={
         <ProgressBar progress={progress}>
-          <div className="text-sm p-2">紧张接收中</div>
+          <div className="text-center text-sm p-2">
+            {progress < 100 && `紧张接收中：${bytesPerSecondsToHumanFriendlyText(speed)}`}
+            {progress >= 100 && '接收完成'}
+          </div>
         </ProgressBar>
       }
     >
-      <FileIcon />
-      <div>
-        <p>{fileName}</p>
-      </div>
+      <FileInfo name={fileName} size={receivedSize} type={type} />
     </CardContainer>
   );
 };

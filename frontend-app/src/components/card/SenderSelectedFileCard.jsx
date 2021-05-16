@@ -1,28 +1,17 @@
 import React, { useMemo } from 'react';
 import { Button } from '../Button';
-import { FileIcon } from '../FileIcon';
 import { CardContainer } from './CardContainer';
+import { FileInfo } from '../shared/FileInfo';
+import { bytesCountToHumanFriendlyText } from '../../utils/size';
 
 export const SenderSelectedFileCard = ({ file, canSend, sending, onConfirm, onCancel }) => {
-  const fileSizeText = useMemo(() => {
-    let { size } = file;
-    if (size < 1024) {
-      return `${size} Bytes`;
-    } else if ((size /= 1024) < 1024) {
-      return `${size.toFixed(2)} KiB`;
-    } else if ((size /= 1024) < 1024) {
-      return `${size.toFixed(2)} MiB`;
-    } else {
-      return `${size.toFixed(2)} GiB`;
-    }
-  }, [file.size]);
-
   const warning = useMemo(() => {
-    if (!fileSizeText.endsWith('GiB')) {
+    const text = bytesCountToHumanFriendlyText(file.size);
+    if (!text.endsWith('GiB')) {
       return null;
     }
-    return '文件过大，传输可能不稳定。';
-  }, [fileSizeText]);
+    return '文件过大，传输可能不稳定';
+  }, [file.size]);
 
   return (
     <CardContainer
@@ -70,12 +59,7 @@ export const SenderSelectedFileCard = ({ file, canSend, sending, onConfirm, onCa
         </div>
       }
     >
-      <div className="flex flex-col items-center text-center">
-        <FileIcon />
-        <div>
-          <p>{file.name}</p>
-          <p>{fileSizeText}</p>
-        </div>
+      <FileInfo name={file.name} size={file.size} type={file.type}>
         {warning && (
           <p className="text-sm mb-2">
             <svg
@@ -92,7 +76,7 @@ export const SenderSelectedFileCard = ({ file, canSend, sending, onConfirm, onCa
             <span>{warning}</span>
           </p>
         )}
-      </div>
+      </FileInfo>
     </CardContainer>
   );
 };

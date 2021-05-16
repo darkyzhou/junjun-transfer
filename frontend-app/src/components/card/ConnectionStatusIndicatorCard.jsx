@@ -11,8 +11,8 @@ const Shadow = styled.div`
 export const ConnectionStatusIndicatorCard = ({ spinner, cat = true, message }) => {
   return (
     <CardContainer bottom={<div className="p-2 text-center text-sm">{message}</div>}>
-      <div className="w-full h-full relative">
-        {cat && <CatImage className="block absolute h-full w-auto max-w-none" />}
+      <div className="w-full h-full relative overflow-hidden">
+        {cat && <CatImage className="block absolute h-auto w-full max-w-none" />}
         {spinner && (
           <Shadow className="relative p-16 z-10 w-full h-full">
             <Spinner />

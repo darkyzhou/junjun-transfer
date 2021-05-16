@@ -10,7 +10,7 @@ export class FileSender {
     const dataBuffer = await file.arrayBuffer();
 
     const meta = {
-      totalBytes: dataBuffer.byteLength,
+      size: dataBuffer.byteLength,
       name: file.name,
       type: file.type
     };

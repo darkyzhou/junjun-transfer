@@ -74,8 +74,8 @@ module.exports = class Job {
       this.receiverSocket = null;
       this.#checkDestroy();
     });
-    socket.on('EVENT_RECEIVER_PROGRESS', ({ speed, received, total, finished }) =>
-      this.senderSocket?.emit('EVENT_RECEIVER_PROGRESS', { speed, received, total, finished })
+    socket.on('EVENT_RECEIVER_PROGRESS', ({ avgSpeed, speed, current, goal }) =>
+      this.senderSocket?.emit('EVENT_RECEIVER_PROGRESS', { avgSpeed, speed, current, goal })
     );
   }
 

@@ -15,19 +15,21 @@ import {
 } from '../webrtc/data-channel/data-channel-transmitter';
 import { SenderSelectedFileCard } from './card/SenderSelectedFileCard';
 import { SenderInstructionPanel } from './panel/SenderInstructionPanel';
+import { CardContainer } from './card/CardContainer';
+import { FileIcon } from './FileIcon';
 
 export const SenderMain = ({ socket, jobId }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileSender, setFileSender] = useState(null);
   const [transferStatus, setTransferStatus] = useState('initial');
-  const [transferProgress, setTransferProgress] = useState(null);
+  const [transferStats, setTransferStats] = useState({ speed: 0, progress: 0, current: 0 });
 
   const receiverUrl = useMemo(() => `${window.location.href}?job_id=${window.encodeURIComponent(jobId)}`, [jobId]);
 
   const onConfirm = useCallback(() => {
     setTransferStatus('transferring');
     fileSender.send(selectedFile);
-  }, [selectedFile]);
+  }, [selectedFile, fileSender]);
 
   useEffect(() => {
     const bootstrapper = new SenderDataChannelBootstrapper(socket);
@@ -46,10 +48,16 @@ export const SenderMain = ({ socket, jobId }) => {
       return;
     }
     const { transmitter } = fileSender;
-    transmitter.addEventListener(EVENT_TRANSMISSION_PROGRESS, ({ detail: { bytesTransmitted, totalBytes } }) =>
-      setTransferProgress((bytesTransmitted / totalBytes).toFixed(0))
-    );
-    transmitter.addEventListener(EVENT_TRANSMISSION_COMPLETED, () => setTransferStatus('completed'));
+    socket.on('EVENT_RECEIVER_PROGRESS', ({ avgSpeed, speed, current, goal }) => {
+      setTransferStats({
+        speed: speed <= 0 ? avgSpeed : speed,
+        progress: Math.floor((100 * current) / goal),
+        current
+      });
+      if (current === goal) {
+        setTransferStatus('completed');
+      }
+    });
   }, [fileSender]);
 
   return (
@@ -62,7 +70,10 @@ export const SenderMain = ({ socket, jobId }) => {
             file={selectedFile}
             canSend={!!fileSender}
             sending={transferStatus === 'transferring'}
-            onCancel={() => setSelectedFile(null)}
+            onCancel={() => {
+              setSelectedFile(null);
+              setTransferStatus('ready');
+            }}
             onConfirm={onConfirm}
           />
         )}
@@ -87,7 +98,12 @@ export const SenderMain = ({ socket, jobId }) => {
           />
         )}
         {(transferStatus === 'transferring' || transferStatus === 'completed') && (
-          <ReceiverFileCard fileName={selectedFile.name} progress={transferProgress} />
+          <ReceiverFileCard
+            fileName={selectedFile.name}
+            receivedSize={transferStats.current}
+            progress={transferStats.progress}
+            speed={transferStats.speed}
+          />
         )}
       </div>
     </main>

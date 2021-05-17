@@ -13,7 +13,7 @@ export const ReceiverInstructionPanel = ({ url, className }) => {
   }, [url]);
   return (
     <PanelContainer className={`text-sm text-gray-300 ${className}`}>
-      <p>为了让你的小伙伴能够收到文件，请让TA扫描下方二维码：</p>
+      <p className="mb-2">为了让你的小伙伴能够收到文件，请让TA扫描下方二维码：</p>
       <div className="flex justify-center mb-2">
         <img src={qrCodeUrl} className="max-w-full max-h-full" />
       </div>

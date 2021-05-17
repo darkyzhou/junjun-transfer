@@ -55,7 +55,7 @@ export const SenderMain = ({ socket, jobId }) => {
   return (
     <main className="p-4 md:p-8 lg:p-12 grid grid-cols-2 grid-rows-1 gap-4">
       <div className="flex flex-col items-center">
-        <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-8">发送文件</h4>
+        <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 sm:mb-8">发送文件</h4>
         {!selectedFile && <SenderInstructionPanel className="flex-1" onSelectFile={(file) => setSelectedFile(file)} />}
         {selectedFile && (
           <SenderSelectedFileCard
@@ -72,7 +72,7 @@ export const SenderMain = ({ socket, jobId }) => {
         )}
       </div>
       <div className="flex flex-col items-center">
-        <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-8 text-center">接收文件</h4>
+        <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 sm:mb-8">接收文件</h4>
         {transferStatus === 'initial' && <ReceiverInstructionPanel className="flex-1" url={receiverUrl} />}
         {transferStatus === 'connected' && (
           <ConnectionStatusIndicatorCard
@@ -93,6 +93,7 @@ export const SenderMain = ({ socket, jobId }) => {
             className="flex-1"
             fileName={selectedFile.name}
             receivedSize={transferStats.current}
+            type={selectedFile.type}
             progress={transferStats.progress}
             speed={transferStats.speed}
           />

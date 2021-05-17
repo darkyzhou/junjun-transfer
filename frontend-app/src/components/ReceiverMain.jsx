@@ -42,14 +42,12 @@ export const ReceiverMain = ({ socket }) => {
     if (!fileReceiver) {
       return;
     }
-    const {
-      receiver: { speedMonitor }
-    } = fileReceiver;
     fileReceiver.addEventListener(EVENT_META_RECEIVED, ({ detail: { meta } }) => {
       setTransferStatus('transferring');
       setFileMeta(meta);
     });
     fileReceiver.addEventListener(EVENT_FILE_RECEIVED, () => setTransferStatus('completed'));
+    const { speedMonitor } = fileReceiver;
     speedMonitor.addEventListener(EVENT_TRANSFER_SPEED_UPDATE, ({ detail: { avgSpeed, speed, current, goal } }) => {
       setTransferStats({
         speed: speed <= 0 ? avgSpeed : speed,
@@ -68,7 +66,7 @@ export const ReceiverMain = ({ socket }) => {
   return (
     <main className="p-4 md:p-8 lg:p-12 grid grid-cols-2 grid-rows-1 gap-4">
       <div className="flex flex-col items-center">
-        <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-8">发送文件</h4>
+        <h4 className="text-gray-200 font-zcool text-3xl tracking-widest sm:mb-4 mb-8">发送文件</h4>
         {transferStatus === 'initial' && (
           <ConnectionStatusIndicatorCard className="flex-1" spinner={true} message={'正在连接发送方...'} />
         )}
@@ -101,7 +99,7 @@ export const ReceiverMain = ({ socket }) => {
         )}
       </div>
       <div className="flex flex-col items-center">
-        <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-8">接收文件</h4>
+        <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 sm:mb-8">接收文件</h4>
         {!fileMeta && <PanelContainer className="flex-1 text-gray-400 w-full">等待中...</PanelContainer>}
         {fileMeta && (
           <ReceiverFileCard

@@ -1,11 +1,10 @@
-import { TransferSpeedMonitor } from '../file/transfer-speed-monitor';
-
+export const EVENT_PROGRESS = 'progress';
+export const EVENT_RECEIVE_COMPLETED = 'receive-completed';
 export const EVENT_CHANNEL_CLOSED = 'channel-closed';
 
 export class DataChannelReceiver {
   constructor(channel) {
     this.target = new EventTarget();
-    this.speedMonitor = new TransferSpeedMonitor();
     channel.onmessage = ({ data }) => this.#onReceiveData(data);
     channel.onclose = () => this.#onChannelClose();
     this.#reset();
@@ -35,9 +34,6 @@ export class DataChannelReceiver {
   }
 
   #onReceiveData(receivedBuffer) {
-    if (this.speedMonitor.cancelled) {
-      this.speedMonitor.start(this.totalBytes);
-    }
     if (!this.currentResolve) {
       console.debug('[data-channel-receiver] ignored newly received arraybuffer');
       return;
@@ -48,13 +44,19 @@ export class DataChannelReceiver {
       this.arrayBufferView[this.receivedBytes + i] = receivedBufferView[i];
     }
     this.receivedBytes += length;
-    this.speedMonitor.addToCurrent(length);
+    this.target.dispatchEvent(
+      new CustomEvent(EVENT_PROGRESS, {
+        detail: {
+          newlyReceivedBytes: length
+        }
+      })
+    );
 
     if (this.receivedBytes === this.totalBytes) {
       console.debug(`[data-channel-receiver] successfully received ${this.receivedBytes}bytes of data`);
       console.assert(this.currentResolve);
+      this.target.dispatchEvent(new CustomEvent(EVENT_RECEIVE_COMPLETED));
       this.currentResolve(this.arrayBuffer);
-      this.speedMonitor.cancel();
       this.#reset();
     }
   }

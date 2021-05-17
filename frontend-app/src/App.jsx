@@ -26,10 +26,10 @@ const App = () => {
   return (
     <div className="bg-gray-900">
       <div className="max-w-[850px] mx-auto h-screen flex flex-col">
-        <div className="flex-none text-center text-gray-300 my-8 z-10">
-          <h2 className="text-gray-200 font-zcool text-8xl tracking-wider mb-4">俊俊快传</h2>
-          <p className="text-xl text-gray-400 tracking-wider">一个基于 WebRTC 技术的浏览器点对点文件传输工具</p>
-          <p className="flex items-center justify-center">
+        <div className="flex-none text-center text-gray-300 my-8 p-1">
+          <h2 className="text-gray-200 font-zcool text-6xl sm:text-8xl tracking-wider mb-2 sm:mb-4">俊俊快传</h2>
+          <p className="text-sm sm:text-xl text-gray-400 tracking-wider">基于 WebRTC 技术的浏览器点对点文件传输工具</p>
+          <p className="flex items-center justify-center text-sm">
             <a
               href="https://github.com/darkyzhou/junjun-transfer"
               className="inline-block text-gray-400 leading-5 hover:text-gray-200 transition-colors mr-2"

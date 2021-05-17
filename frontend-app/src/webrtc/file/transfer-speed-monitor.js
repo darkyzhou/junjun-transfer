@@ -1,6 +1,6 @@
 export const EVENT_TRANSFER_SPEED_UPDATE = 'transfer-speed-update';
 
-const DURATION = 500;
+const DURATION = 1000;
 
 export class TransferSpeedMonitor {
   constructor() {

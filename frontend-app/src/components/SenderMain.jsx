@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Status } from './Status';
 import { ConnectionStatusIndicatorCard } from './card/ConnectionStatusIndicatorCard';
 import {
   EVENT_ANSWER_RECEIVED,
@@ -9,14 +8,8 @@ import {
 import { ReceiverInstructionPanel } from './panel/ReceiverInstructionPanel';
 import { ReceiverFileCard } from './card/ReceiverFileCard';
 import { FileSender } from '../webrtc/file/file-sender';
-import {
-  EVENT_TRANSMISSION_COMPLETED,
-  EVENT_TRANSMISSION_PROGRESS
-} from '../webrtc/data-channel/data-channel-transmitter';
 import { SenderSelectedFileCard } from './card/SenderSelectedFileCard';
 import { SenderInstructionPanel } from './panel/SenderInstructionPanel';
-import { CardContainer } from './card/CardContainer';
-import { FileIcon } from './FileIcon';
 
 export const SenderMain = ({ socket, jobId }) => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -47,7 +40,6 @@ export const SenderMain = ({ socket, jobId }) => {
     if (!fileSender) {
       return;
     }
-    const { transmitter } = fileSender;
     socket.on('EVENT_RECEIVER_PROGRESS', ({ avgSpeed, speed, current, goal }) => {
       setTransferStats({
         speed: speed <= 0 ? avgSpeed : speed,
@@ -61,12 +53,13 @@ export const SenderMain = ({ socket, jobId }) => {
   }, [fileSender]);
 
   return (
-    <main className="flex-1 flex justify-between p-12">
-      <div className="flex-none">
-        <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 text-center">发送文件</h4>
-        {!selectedFile && <SenderInstructionPanel onSelectFile={(file) => setSelectedFile(file)} />}
+    <main className="p-4 md:p-8 lg:p-12 grid grid-cols-2 grid-rows-1 gap-4">
+      <div className="flex flex-col items-center">
+        <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-8">发送文件</h4>
+        {!selectedFile && <SenderInstructionPanel className="flex-1" onSelectFile={(file) => setSelectedFile(file)} />}
         {selectedFile && (
           <SenderSelectedFileCard
+            className="flex-1"
             file={selectedFile}
             canSend={!!fileSender}
             sending={transferStatus === 'transferring'}
@@ -78,27 +71,26 @@ export const SenderMain = ({ socket, jobId }) => {
           />
         )}
       </div>
-      <div className="flex-1">
-        <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 text-center">当前状态</h4>
-        <Status />
-      </div>
-      <div className="flex-none">
-        <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 text-center">接收文件</h4>
-        {transferStatus === 'initial' && <ReceiverInstructionPanel url={receiverUrl} />}
+      <div className="flex flex-col items-center">
+        <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-8 text-center">接收文件</h4>
+        {transferStatus === 'initial' && <ReceiverInstructionPanel className="flex-1" url={receiverUrl} />}
         {transferStatus === 'connected' && (
           <ConnectionStatusIndicatorCard
+            className="flex-1"
             spinner={true}
             message={'伙伴已经打开了俊俊快传，浏览器正在建立 WebRTC 连接...'}
           />
         )}
         {transferStatus === 'ready' && (
           <ConnectionStatusIndicatorCard
+            className="flex-1"
             spinner={false}
             message={'伙伴已经连接到你的浏览器，就等你选好文件开始发送了！'}
           />
         )}
         {(transferStatus === 'transferring' || transferStatus === 'completed') && (
           <ReceiverFileCard
+            className="flex-1"
             fileName={selectedFile.name}
             receivedSize={transferStats.current}
             progress={transferStats.progress}

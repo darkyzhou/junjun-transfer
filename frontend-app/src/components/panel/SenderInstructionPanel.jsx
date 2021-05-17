@@ -1,9 +1,9 @@
 import React from 'react';
 import { PanelContainer } from './PanelContainer';
 
-export const SenderInstructionPanel = ({ onSelectFile }) => {
+export const SenderInstructionPanel = ({ onSelectFile, className }) => {
   return (
-    <PanelContainer className="relative">
+    <PanelContainer className={`relative ${className}`}>
       <input type="file" id="file" hidden onChange={(event) => onSelectFile(event.target.files[0])} />
       <label htmlFor="file" className="opacity-0 absolute inset-0 cursor-pointer" />
       <svg

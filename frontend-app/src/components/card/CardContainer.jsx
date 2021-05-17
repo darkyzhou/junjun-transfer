@@ -10,12 +10,14 @@ const Shadow = styled.div`
   background: linear-gradient(to top, rgba(0, 0, 0, 0.36), transparent 25%);
 `;
 
-export const CardContainer = ({ children, bottom }) => {
+export const CardContainer = ({ children, bottom, className }) => {
   return (
-    <RootContainer className="w-[16rem] h-[18rem] rounded-md bg-gray-800 text-gray-300 overflow-hidden flex flex-col">
-      <div className="flex-1 relative">
-        {children}
-        <Shadow className="absolute inset-0" />
+    <RootContainer
+      className={`sm:w-[16rem] sm:h-[18rem] rounded-md bg-gray-800 text-gray-300 overflow-hidden flex flex-col ${className}`}
+    >
+      <div className="flex-1 flex relative">
+        <div className="flex-1">{children}</div>
+        <Shadow className="absolute inset-0 z-50" />
       </div>
       <div className="flex-none bg-gray-700">{bottom}</div>
     </RootContainer>

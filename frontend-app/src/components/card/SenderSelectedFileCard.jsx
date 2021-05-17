@@ -4,7 +4,7 @@ import { CardContainer } from './CardContainer';
 import { FileInfo } from '../shared/FileInfo';
 import { bytesCountToHumanFriendlyText } from '../../utils/size';
 
-export const SenderSelectedFileCard = ({ file, canSend, sending, onConfirm, onCancel }) => {
+export const SenderSelectedFileCard = ({ file, canSend, sending, onConfirm, onCancel, className }) => {
   const warning = useMemo(() => {
     const text = bytesCountToHumanFriendlyText(file.size);
     if (!text.endsWith('GiB')) {
@@ -15,6 +15,7 @@ export const SenderSelectedFileCard = ({ file, canSend, sending, onConfirm, onCa
 
   return (
     <CardContainer
+      className={className}
       bottom={
         <div className="w-full flex">
           <Button className="flex-1 rounded-bl-md" onClick={onCancel} disabled={sending}>

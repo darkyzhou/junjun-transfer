@@ -4,9 +4,10 @@ import { CardContainer } from './CardContainer';
 import { bytesPerSecondsToHumanFriendlyText } from '../../utils/size';
 import { FileInfo } from '../shared/FileInfo';
 
-export const ReceiverFileCard = ({ fileName, receivedSize, type, progress, speed }) => {
+export const ReceiverFileCard = ({ className, fileName, receivedSize, type, progress, speed }) => {
   return (
     <CardContainer
+      className={className}
       bottom={
         <ProgressBar progress={progress}>
           <div className="text-center text-sm p-2">

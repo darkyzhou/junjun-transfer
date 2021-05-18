@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Status } from './Status';
 import { ReceiverFileCard } from './card/ReceiverFileCard';
 import { CardContainer } from './card/CardContainer';
-import { FileIcon } from './FileIcon';
 import { PanelContainer } from './panel/PanelContainer';
 import { ConnectionStatusIndicatorCard } from './card/ConnectionStatusIndicatorCard';
 import {

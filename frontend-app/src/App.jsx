@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SenderMain } from './components/SenderMain';
 import { makeJobId, makeReceiverSocket, makeSenderSocket } from './signal/signal-utils';
-import { Spinner } from './components/Spinner';
+import { Spinner } from './components/shared/Spinner';
 import { ReceiverMain } from './components/ReceiverMain';
 
 const jobIdFromQuery = new URLSearchParams(window.location.search).get('job_id');
@@ -70,11 +70,21 @@ const App = () => {
           {socket && isSender && <SenderMain socket={socket} jobId={jobId} />}
           {socket && !isSender && <ReceiverMain socket={socket} />}
         </div>
-        <footer className="flex-none text-center text-gray-400 p-2">
-          Made with ❤️ by{' '}
-          <a href="https://darkyzhou.net" className="underline">
-            darkyzhou
-          </a>
+        <footer className="flex-none text-center text-gray-400 p-2 text-sm">
+          <p>
+            Made with ❤️ by{' '}
+            <a href="https://darkyzhou.net" className="underline">
+              darkyzhou
+            </a>
+          </p>
+          <p>
+            网站的图标来自 Twitter，遵循{' '}
+            <a className="underline" href="https://creativecommons.org/licenses/by/4.0/">
+              CC-BY 4.0
+            </a>{' '}
+            协议
+          </p>
+          <p>可爱的猫咪图片来自 master1305、wirestock 和 winkimages</p>
         </footer>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProgressBar } from '../ProgressBar';
+import { ProgressBar } from '../shared/ProgressBar';
 import { CardContainer } from './CardContainer';
 import { bytesPerSecondsToHumanFriendlyText } from '../../utils/size';
 import { FileInfo } from '../shared/FileInfo';

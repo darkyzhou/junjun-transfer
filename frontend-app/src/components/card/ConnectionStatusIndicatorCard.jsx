@@ -1,6 +1,6 @@
 import React from 'react';
 import { CardContainer } from './CardContainer';
-import { Spinner } from '../Spinner';
+import { Spinner } from '../shared/Spinner';
 import { CatImage } from '../shared/CatImage';
 import styled from 'styled-components';
 

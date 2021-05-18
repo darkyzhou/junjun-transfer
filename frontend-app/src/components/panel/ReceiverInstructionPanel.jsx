@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { PanelContainer } from './PanelContainer';
 import QRCode from 'qrcode';
 import { CopyToClipboard } from 'react-copy-to-clipboard/lib/Component';
-import { Button } from '../Button';
+import { Button } from '../shared/Button';
 
 export const ReceiverInstructionPanel = ({ url, className }) => {
   const [copied, setCopied] = useState(false);

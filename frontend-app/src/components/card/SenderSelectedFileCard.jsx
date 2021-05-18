@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Button } from '../Button';
+import { Button } from '../shared/Button';
 import { CardContainer } from './CardContainer';
 import { FileInfo } from '../shared/FileInfo';
 import { bytesCountToHumanFriendlyText } from '../../utils/size';

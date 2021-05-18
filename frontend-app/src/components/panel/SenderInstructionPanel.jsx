@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { PanelContainer } from './PanelContainer';
 
 export const SenderInstructionPanel = ({ onSelectFile, className }) => {
+  const onDrop = useCallback((event) => {
+    event.preventDefault();
+    const { dataTransfer } = event;
+    const fileItem = dataTransfer?.items?.[0];
+    if (fileItem?.kind !== 'file') {
+      return;
+    }
+    onSelectFile(fileItem.getAsFile());
+  }, []);
+
   return (
     <PanelContainer className={`relative ${className}`}>
       <input type="file" id="file" hidden onChange={(event) => onSelectFile(event.target.files[0])} />
-      <label htmlFor="file" className="opacity-0 absolute inset-0 cursor-pointer" />
+      <label
+        htmlFor="file"
+        className="opacity-0 absolute inset-0 cursor-pointer"
+        onDrop={onDrop}
+        onDragOver={(event) => event.preventDefault()}
+      />
       <svg
         xmlns="http://www.w3.org/2000/svg"
         xmlnsXlink="http://www.w3.org/1999/xlink"

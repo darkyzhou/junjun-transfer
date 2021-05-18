@@ -18,10 +18,17 @@ export const ReceiverInstructionPanel = ({ url, className }) => {
         <img src={qrCodeUrl} className="max-w-full max-h-full" />
       </div>
       <p>或者让TA用浏览器打开下面的链接：</p>
-      <div className="flex rounded border-solid border-2 border-gray-500">
-        <input type="text" className="bg-gray-800 flex-1 px-2 py-1 w-0" disabled={true} value={url} />
+      <div className="flex">
+        <input
+          type="text"
+          className="rounded-tl rounded-bl border-solid border-2 border-r-0 border-gray-500 bg-gray-800 flex-1 px-2 py-1 w-0 font-light"
+          disabled={true}
+          value={url}
+        />
         <CopyToClipboard text={url} onCopy={() => setCopied(true)}>
-          <Button className="flex-none px-2 py-1">{copied ? 'OK' : '复制'}</Button>
+          <Button className="flex-none rounded-tr rounded-br border-solid border-2 border-l-0 !border-gray-500 hover:!border-gray-300 px-2 py-1">
+            {copied ? 'OK' : '复制'}
+          </Button>
         </CopyToClipboard>
       </div>
     </PanelContainer>

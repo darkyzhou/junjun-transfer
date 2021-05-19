@@ -18,16 +18,16 @@ export class ReceiverDataChannelBootstrapper {
     this.target.removeEventListener(eventName, listener);
   }
 
-  async bootstrap() {
+  async bootstrap(serversInfo) {
     try {
-      await this.#doBootstrap();
+      await this.#doBootstrap(serversInfo);
     } catch (error) {
       console.debug('[receiver-data-channel-bootstrapper] error', error);
     }
   }
 
-  async #doBootstrap() {
-    this.connection = makeStunConnection();
+  async #doBootstrap(serversInfo) {
+    this.connection = makeStunConnection(serversInfo);
     this.connection.ondatachannel = ({ channel }) =>
       this.target.dispatchEvent(
         new CustomEvent(EVENT_CHANNEL_OPEN, {

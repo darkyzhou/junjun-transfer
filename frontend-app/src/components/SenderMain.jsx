@@ -11,7 +11,7 @@ import { FileSender } from '../webrtc/file/file-sender';
 import { SenderSelectedFileCard } from './card/SenderSelectedFileCard';
 import { SenderInstructionPanel } from './panel/SenderInstructionPanel';
 
-export const SenderMain = ({ socket, jobId }) => {
+export const SenderMain = ({ socket, jobId, serversInfo }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileSender, setFileSender] = useState(null);
   const [transferStatus, setTransferStatus] = useState('initial');
@@ -33,7 +33,7 @@ export const SenderMain = ({ socket, jobId }) => {
       setTransferStatus('ready');
     });
 
-    bootstrapper.bootstrap();
+    bootstrapper.bootstrap(serversInfo);
   }, [socket]);
 
   useEffect(() => {

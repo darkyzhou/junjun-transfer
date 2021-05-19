@@ -10,6 +10,9 @@ export default defineConfig({
         target: 'ws://localhost:4500',
         changeOrigin: true,
         ws: true
+      },
+      '/ice': {
+        target: 'http://localhost:4000'
       }
     }
   }

@@ -19,16 +19,16 @@ export class SenderDataChannelBootstrapper {
     this.target.removeEventListener(eventName, listener);
   }
 
-  async bootstrap() {
+  async bootstrap(serversInfo) {
     try {
-      await this.#initDataChannel();
+      await this.#initDataChannel(serversInfo);
     } catch (error) {
       console.debug('[sender-connection-bootstrap] error bootstrapping:', error);
     }
   }
 
-  async #initDataChannel() {
-    this.connection = makeStunConnection();
+  async #initDataChannel(serversInfo) {
+    this.connection = makeStunConnection(serversInfo);
     this.channel = bootstrapDataChannel(this.connection);
     this.channel.onopen = () => {
       console.debug('[sender-connection-bootstrap] channel established');

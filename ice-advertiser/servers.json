@@ -1,0 +1,11 @@
+{
+  "version": "1",
+  "servers": [
+    {
+      "type": "stun",
+      "id": "local-test",
+      "url": "stun:127.0.0.1:3478",
+      "displayName": "Local Test"
+    }
+  ]
+}

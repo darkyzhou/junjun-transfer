@@ -1,15 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { SenderMain } from './components/SenderMain';
 import { makeJobId, makeReceiverSocket, makeSenderSocket } from './signal/signal-utils';
 import { Spinner } from './components/shared/Spinner';
 import { ReceiverMain } from './components/ReceiverMain';
+import styled from 'styled-components';
+import colors from 'tailwindcss/colors';
 
-const jobIdFromQuery = new URLSearchParams(window.location.search).get('job_id');
+const BackgroundText = styled.div`
+  text-shadow: -2px 3px ${colors.coolGray['800']}, -1px 2px ${colors.coolGray['800']}, 0 1px ${colors.coolGray['800']};
+`;
+
+const params = new URLSearchParams(window.location.search);
+const jobIdFromQuery = params.get('job_id');
 const isSender = !jobIdFromQuery;
 
 const App = () => {
   const [jobId, setJobId] = useState(jobIdFromQuery);
   const [socket, setSocket] = useState(null);
+  const [iceServersInfo, setIceServersInfo] = useState(null);
+
+  const initializing = useMemo(() => !socket || !iceServersInfo, [socket, iceServersInfo]);
 
   useEffect(() => {
     let socket;
@@ -23,10 +33,16 @@ const App = () => {
     socket.on('connect', () => setSocket(socket));
   }, []);
 
+  useEffect(async () => {
+    const response = await fetch('/ice');
+    const info = await response.json();
+    setIceServersInfo(info);
+  }, []);
+
   return (
-    <div className="bg-gray-900">
+    <div className="bg-gray-900 relative">
       <div className="max-w-[850px] mx-auto h-screen flex flex-col">
-        <div className="flex-none text-center text-gray-300 my-8 p-1">
+        <div className="relative z-10 flex-none text-center text-gray-300 my-8 p-1">
           <h2 className="text-gray-200 font-zcool text-6xl sm:text-8xl tracking-wider mb-2 sm:mb-4">俊俊快传</h2>
           <p className="text-sm sm:text-xl text-gray-400 tracking-wider">基于 WebRTC 技术的浏览器点对点文件传输工具</p>
           <p className="flex items-center justify-center text-sm">
@@ -60,17 +76,17 @@ const App = () => {
             </a>
           </p>
         </div>
-        <div className="flex-1">
-          {!socket && (
+        <div className="relative z-10 flex-1">
+          {initializing && (
             <main className="p-12 text-gray-300 flex flex-col items-center">
               <Spinner className="w-36 h-36" />
-              <p>正在连接信令服务器...</p>
+              <p>正在连接</p>
             </main>
           )}
-          {socket && isSender && <SenderMain socket={socket} jobId={jobId} />}
-          {socket && !isSender && <ReceiverMain socket={socket} />}
+          {!initializing && isSender && <SenderMain socket={socket} jobId={jobId} serversInfo={iceServersInfo} />}
+          {!initializing && !isSender && <ReceiverMain socket={socket} serversInfo={iceServersInfo} />}
         </div>
-        <footer className="flex-none text-center text-gray-400 p-2 text-sm">
+        <footer className="relative z-10 flex-none text-center text-gray-400 p-2 text-sm">
           <p>
             Made with ❤️ by{' '}
             <a href="https://darkyzhou.net" className="underline">
@@ -86,6 +102,9 @@ const App = () => {
           </p>
           <p>可爱的猫咪图片来自 master1305、wirestock 和 winkimages</p>
         </footer>
+        <BackgroundText className="absolute left-[5vw] bottom-[10vh] max-w-[80vw] max-h-[80vh] text-gray-700 text-xl sm:text-2xl transform skew-x-[15deg] pointer-events-none overflow-hidden">
+          <pre>{JSON.stringify(iceServersInfo, null, 2)}</pre>
+        </BackgroundText>
       </div>
     </div>
   );

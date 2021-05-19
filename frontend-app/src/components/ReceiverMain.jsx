@@ -13,7 +13,7 @@ import { saveArraybufferAsFile } from '../utils/save-arraybuffer-as-file';
 import { EVENT_TRANSFER_SPEED_UPDATE } from '../webrtc/file/transfer-speed-monitor';
 import { FileInfo } from './shared/FileInfo';
 
-export const ReceiverMain = ({ socket }) => {
+export const ReceiverMain = ({ socket, serversInfo }) => {
   const [fileMeta, setFileMeta] = useState(null);
   const [fileReceiver, setFileReceiver] = useState(null);
   const [transferStatus, setTransferStatus] = useState('initial');
@@ -33,7 +33,7 @@ export const ReceiverMain = ({ socket }) => {
       }
     });
 
-    bootstrapper.bootstrap();
+    bootstrapper.bootstrap(serversInfo);
   }, [socket]);
 
   useEffect(() => {

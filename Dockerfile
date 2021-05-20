@@ -1,5 +1,3 @@
-LABEL org.opencontainers.image.authors="darkyoooooo@gmail.com"
-
 FROM node:alpine as fe_build
 COPY frontend-app/package.json /fe_build/
 WORKDIR /fe_build
@@ -29,4 +27,6 @@ CMD nginx && \
     cd /backend-app && \
     echo "Nginx started, now starting backend-app..." && \
     node index.js
+
+LABEL org.opencontainers.image.authors="darkyoooooo@gmail.com"
 

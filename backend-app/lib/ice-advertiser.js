@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 // TODO: should check validity
-const servers = require('../ice-servers.json');
+const servers = require('../config/ice-servers.json');
 
 module.exports = () => {
   app.get('/ice', (req, res) => {

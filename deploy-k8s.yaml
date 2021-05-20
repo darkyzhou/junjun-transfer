@@ -73,13 +73,9 @@ spec:
             - name: ice
               containerPort: 3478
               protocol: UDP
-          resources:
-            limits:
-              cpu: 1000m
-              memory: 500Mi
           volumeMounts:
             - name: ice-servers
-              mountPath: /backend-app
+              mountPath: /backend-app/config
       volumes:
         - name: ice-servers
           configMap:

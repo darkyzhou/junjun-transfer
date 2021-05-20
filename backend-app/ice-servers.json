@@ -6,6 +6,12 @@
       "id": "local-test",
       "url": "stun:127.0.0.1:3478",
       "displayName": "Local Test"
+    },
+    {
+      "type": "turn",
+      "id": "local-test",
+      "url": "turn:127.0.0.1:3478",
+      "displayName": "Local Test"
     }
   ]
 }

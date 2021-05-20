@@ -1,12 +1,8 @@
-const { createServer } = require('http');
-const { Server } = require('socket.io');
-const { JobController } = require('./lib/job-controller');
+const startupSignalServer = require('./lib/signal-server');
+const startupIceServer = require('./lib/ice-server');
+const startupIceAdvertiser = require('./lib/ice-advertiser');
 
-const httpServer = createServer();
-const senderWs = new Server(httpServer, { path: '/signal/sender' });
-const receiverWs = new Server(httpServer, { path: '/signal/receiver' });
-const controller = new JobController(senderWs, receiverWs);
-
-controller.init();
-httpServer.listen(4500);
-console.log('[signal] started listening port 4500');
+startupSignalServer();
+startupIceServer();
+startupIceAdvertiser();
+// TODO: error check

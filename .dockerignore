@@ -1,0 +1,5 @@
+Dockerfile
+frontend-app/node_modules
+ice-advertiser/node_modules
+ice-server/node_modules
+backend-app/node_modules

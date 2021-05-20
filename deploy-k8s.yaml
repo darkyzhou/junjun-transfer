@@ -1,0 +1,86 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: junjun-transfer
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: junjun-ice-servers
+  namespace: junjun-transfer
+data:
+  # change the following configuration based on your domain
+  # you can also add other public stun/turn servers as well
+  ice-servers.json: |-
+    {
+      "version": "1",
+      "servers": [
+        {
+          "type": "stun",
+          "id": "my-stun-server",
+          "url": "stun:my-domain:3478",
+          "displayName": "My stun server"
+        }
+      ]
+    }
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: junjun-transfer
+  namespace: junjun-transfer
+  labels:
+    app: junjun-transfer
+spec:
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: http
+    - name: ice
+      protocol: UDP
+      port: 3478
+      targetPort: ice
+  selector:
+    app: junjun-transfer
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: junjun-transfer
+  namespace: junjun-transfer
+spec:
+  # currently, junjun-transfer supports only 1 replica due to the fact that
+  # signal-server is a stateful application
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: junjun-transfer
+      app.kubernetes.io/name: junjun-transfer
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: junjun-transfer
+        app.kubernetes.io/name: junjun-transfer
+    spec:
+      containers:
+        - name: junjun-transfer
+          image: darkyzhou/junjun-transfer
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+            - name: ice
+              containerPort: 3478
+              protocol: UDP
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 500Mi
+          volumeMounts:
+            - name: ice-servers
+              mountPath: /backend-app
+      volumes:
+        - name: ice-servers
+          configMap:
+            name: junjun-ice-servers

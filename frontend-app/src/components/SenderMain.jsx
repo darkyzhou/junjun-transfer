@@ -17,7 +17,11 @@ export const SenderMain = ({ socket, jobId, serversInfo }) => {
   const [transferStatus, setTransferStatus] = useState('initial');
   const [transferStats, setTransferStats] = useState({ speed: 0, progress: 0, current: 0 });
 
-  const receiverUrl = useMemo(() => `${window.location.href}?job_id=${window.encodeURIComponent(jobId)}`, [jobId]);
+  const receiverUrl = useMemo(() => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('job_id', jobId);
+    return url.toString();
+  }, [jobId]);
 
   const onConfirm = useCallback(() => {
     setTransferStatus('transferring');

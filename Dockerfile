@@ -22,7 +22,6 @@ WORKDIR /backend-app
 RUN pnpm install
 
 EXPOSE 80
-EXPOSE 3478
 CMD nginx && \
     echo "Nginx started, now starting backend-app..." && \
     node index.js

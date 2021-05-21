@@ -37,12 +37,9 @@ spec:
       protocol: TCP
       port: 80
       targetPort: http
-    - name: ice
-      protocol: UDP
-      port: 3478
-      targetPort: ice
   selector:
-    app: junjun-transfer
+    app.kubernetes.io/instance: junjun-transfer
+    app.kubernetes.io/name: junjun-transfer
 ---
 kind: Deployment
 apiVersion: apps/v1
@@ -70,9 +67,6 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
-            - name: ice
-              containerPort: 3478
-              protocol: UDP
           volumeMounts:
             - name: ice-servers
               mountPath: /backend-app/config

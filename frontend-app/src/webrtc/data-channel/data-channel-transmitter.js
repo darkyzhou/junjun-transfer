@@ -1,3 +1,5 @@
+import { LOGGER } from "../../utils/logger";
+
 const MAX_CHUNK_SIZE = 16 * 1024;
 const STATE_UPDATE_INTERVAL = 500;
 
@@ -59,7 +61,7 @@ export class DataChannelTransmitter {
 
   #checkCompleted() {
     if (this.currentArrayBuffer && this.dataChannel.bufferedAmount <= 0 && this.bytesTransmitted === this.totalBytes) {
-      console.debug(`[data-channel-transmitter] successfully sent ${this.bytesTransmitted}bytes`);
+      LOGGER.debug(`[data-channel-transmitter] successfully sent ${this.bytesTransmitted}bytes`);
       console.assert(this.currentResolve);
       this.currentResolve();
       this.#reset();

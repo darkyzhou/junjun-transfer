@@ -1,5 +1,6 @@
 import { DataChannelTransmitter } from '../data-channel/data-channel-transmitter';
 import { encodeMetaMessage } from './meta-message-utils';
+import { LOGGER } from '../../utils/logger';
 
 export class FileSender {
   constructor(connection, channel) {
@@ -14,10 +15,10 @@ export class FileSender {
       name: file.name,
       type: file.type
     };
-    console.debug('[file-sender] sending meta', meta);
+    LOGGER.debug('[file-sender] sending meta', meta);
     await this.transmitter.send(encodeMetaMessage(meta));
 
-    console.debug('[file-sender] sending file');
+    LOGGER.debug('[file-sender] sending file');
     await this.transmitter.send(dataBuffer);
   }
 }

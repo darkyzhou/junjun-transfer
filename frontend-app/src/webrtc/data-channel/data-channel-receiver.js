@@ -1,3 +1,5 @@
+import { LOGGER } from '../../utils/logger';
+
 export const EVENT_PROGRESS = 'progress';
 export const EVENT_RECEIVE_COMPLETED = 'receive-completed';
 export const EVENT_CHANNEL_CLOSED = 'channel-closed';
@@ -23,7 +25,7 @@ export class DataChannelReceiver {
       try {
         await this.#doReceive(bytesToReceive, resolve);
       } catch (error) {
-        console.debug('[data-channel-receiver] error', error);
+        LOGGER.debug('[data-channel-receiver] error', error);
         reject(error);
       }
     });
@@ -35,7 +37,7 @@ export class DataChannelReceiver {
 
   #onReceiveData(receivedBuffer) {
     if (!this.currentResolve) {
-      console.debug('[data-channel-receiver] ignored newly received arraybuffer');
+      LOGGER.debug('[data-channel-receiver] ignored newly received arraybuffer');
       return;
     }
     const length = receivedBuffer.byteLength;
@@ -53,7 +55,7 @@ export class DataChannelReceiver {
     );
 
     if (this.receivedBytes === this.totalBytes) {
-      console.debug(`[data-channel-receiver] successfully received ${this.receivedBytes}bytes of data`);
+      LOGGER.debug(`[data-channel-receiver] successfully received ${this.receivedBytes}bytes of data`);
       console.assert(this.currentResolve);
       this.target.dispatchEvent(new CustomEvent(EVENT_RECEIVE_COMPLETED));
       this.currentResolve(this.arrayBuffer);

@@ -3,6 +3,8 @@ import { SenderMain } from './components/SenderMain';
 import { makeJobId, makeReceiverSocket, makeSenderSocket } from './signal/signal-utils';
 import { Spinner } from './components/shared/Spinner';
 import { ReceiverMain } from './components/ReceiverMain';
+import { Button } from './components/shared/Button';
+import { EVENT_NEW_LOG, LOGGER } from './utils/logger';
 
 const params = new URLSearchParams(window.location.search);
 const jobIdFromQuery = params.get('job_id');
@@ -12,8 +14,16 @@ const App = () => {
   const [jobId, setJobId] = useState(jobIdFromQuery);
   const [socket, setSocket] = useState(null);
   const [iceServersInfo, setIceServersInfo] = useState(null);
+  const [showLog, setShowLog] = useState(false);
+  const [logMessages, setLogMessages] = useState('');
 
   const initializing = useMemo(() => !socket || !iceServersInfo, [socket, iceServersInfo]);
+
+  useEffect(() => {
+    LOGGER.addEventListener(EVENT_NEW_LOG, ({ detail: { level, args } }) => {
+      setLogMessages((prev) => `${prev ? prev + '\n' : ''}${args.join(' ')}`);
+    });
+  }, []);
 
   useEffect(() => {
     let socket;
@@ -57,7 +67,7 @@ const App = () => {
                   <path
                     d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5c.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34c-.46-1.16-1.11-1.47-1.11-1.47c-.91-.62.07-.6.07-.6c1 .07 1.53 1.03 1.53 1.03c.87 1.52 2.34 1.07 2.91.83c.09-.65.35-1.09.63-1.34c-2.22-.25-4.55-1.11-4.55-4.92c0-1.11.38-2 1.03-2.71c-.1-.25-.45-1.29.1-2.64c0 0 .84-.27 2.75 1.02c.79-.22 1.65-.33 2.5-.33c.85 0 1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02c.55 1.35.2 2.39.1 2.64c.65.71 1.03 1.6 1.03 2.71c0 3.82-2.34 4.66-4.57 4.91c.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"
                     fill="currentColor"
-                  ></path>
+                  />
                 </svg>
               </span>
               GitHub 仓库
@@ -80,7 +90,20 @@ const App = () => {
           {!initializing && isSender && <SenderMain socket={socket} jobId={jobId} serversInfo={iceServersInfo} />}
           {!initializing && !isSender && <ReceiverMain socket={socket} serversInfo={iceServersInfo} />}
         </div>
-        <footer className="relative z-10 flex-none text-center text-gray-400 p-2 text-sm">
+        <div className="flex-1 mx-auto text-gray-400 flex flex-col-reverse w-full items-center">
+          <Button
+            className="mt-2 !px-2 !py-1 text-xs sm:text-sm flex-none rounded w-max"
+            onClick={() => setShowLog(!showLog)}
+          >
+            查看日志
+          </Button>
+          {showLog && (
+            <div className="flex-1 bg-gray-800 w-full overflow-auto relative">
+              <pre className="p-2 sm:p-4 absolute inset-0 text-xs sm:text-sm">{logMessages}</pre>
+            </div>
+          )}
+        </div>
+        <footer className="relative z-10 flex-none text-center text-gray-400 p-2 text-xs sm:text-sm">
           <p>
             Made with ❤️ by{' '}
             <a href="https://darkyzhou.net" className="underline">

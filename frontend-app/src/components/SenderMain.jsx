@@ -62,7 +62,7 @@ export const SenderMain = ({ socket, jobId, serversInfo }) => {
         <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 sm:mb-8">发送文件</h4>
         {!selectedFile && (
           <SenderInstructionPanel
-            className="flex-1"
+            className="flex-1 w-full"
             onSelectFile={(file) => {
               if (file.size > 0) {
                 setSelectedFile(file);
@@ -72,7 +72,7 @@ export const SenderMain = ({ socket, jobId, serversInfo }) => {
         )}
         {selectedFile && (
           <SenderSelectedFileCard
-            className="flex-1"
+            className="flex-1 w-full"
             file={selectedFile}
             canSend={!!fileSender}
             sending={transferStatus === 'transferring'}

@@ -1,6 +1,7 @@
 import { bootstrapIce } from './bootstrap-ice';
 import { makeStunConnection } from './stun';
 import { bootstrapDataChannel } from './bootstrap-data-channel';
+import { LOGGER } from '../../utils/logger';
 
 export const EVENT_ANSWER_RECEIVED = 'answer-received';
 export const EVENT_CHANNEL_OPEN = 'channel-open';
@@ -23,7 +24,7 @@ export class SenderDataChannelBootstrapper {
     try {
       await this.#initDataChannel(serversInfo);
     } catch (error) {
-      console.debug('[sender-connection-bootstrap] error bootstrapping:', error);
+      LOGGER.debug('[sender-connection-bootstrap] error bootstrapping:', error);
     }
   }
 
@@ -31,7 +32,7 @@ export class SenderDataChannelBootstrapper {
     this.connection = makeStunConnection(serversInfo);
     this.channel = bootstrapDataChannel(this.connection);
     this.channel.onopen = () => {
-      console.debug('[sender-connection-bootstrap] channel established');
+      LOGGER.debug('[sender-connection-bootstrap] channel established');
       this.target.dispatchEvent(
         new CustomEvent(EVENT_CHANNEL_OPEN, {
           detail: { connection: this.connection, channel: this.channel }
@@ -41,7 +42,7 @@ export class SenderDataChannelBootstrapper {
     bootstrapIce(this.connection, this.signalSocket);
 
     this.signalSocket.on('SIGNAL_ANSWER', async ({ answer }) => {
-      console.debug('[sender-connection-bootstrap] received answer:', answer);
+      LOGGER.debug('[sender-connection-bootstrap] received answer:', answer);
       this.target.dispatchEvent(new CustomEvent(EVENT_ANSWER_RECEIVED));
       await this.connection.setRemoteDescription(new RTCSessionDescription(answer));
     });

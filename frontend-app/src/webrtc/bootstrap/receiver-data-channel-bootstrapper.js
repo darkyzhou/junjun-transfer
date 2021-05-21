@@ -1,5 +1,6 @@
 import { makeStunConnection } from './stun';
 import { bootstrapIce } from './bootstrap-ice';
+import { LOGGER } from '../../utils/logger';
 
 export const EVENT_ANSWER_SENT = 'answer-sent';
 export const EVENT_CHANNEL_OPEN = 'channel-open';
@@ -22,7 +23,7 @@ export class ReceiverDataChannelBootstrapper {
     try {
       await this.#doBootstrap(serversInfo);
     } catch (error) {
-      console.debug('[receiver-data-channel-bootstrapper] error', error);
+      LOGGER.debug('[receiver-data-channel-bootstrapper] error', error);
     }
   }
 
@@ -43,7 +44,7 @@ export class ReceiverDataChannelBootstrapper {
 
   async #handleOffer(offer) {
     console.assert(offer);
-    console.log('[receiver-data-channel-bootstrapper] received remote offer:', offer);
+    LOGGER.log('[receiver-data-channel-bootstrapper] received remote offer:', offer);
     await this.connection.setRemoteDescription(new RTCSessionDescription(offer));
     const answer = await this.connection.createAnswer();
     await this.connection.setLocalDescription(answer);

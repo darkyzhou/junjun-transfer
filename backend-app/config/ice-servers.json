@@ -4,7 +4,7 @@
     {
       "type": "stun",
       "id": "local-test",
-      "url": "stun:127.0.0.1:3478",
+      "url": "stun:192.168.20.88:3478",
       "displayName": "Local Test"
     }
   ]

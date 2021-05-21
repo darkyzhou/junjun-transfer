@@ -72,7 +72,10 @@ export const SenderMain = ({ socket, jobId, serversInfo }) => {
             file={selectedFile}
             canSend={!!fileSender}
             sending={transferStatus === 'transferring'}
-            onCancel={() => setSelectedFile(null)}
+            onCancel={() => {
+              setSelectedFile(null);
+              setTransferStats('ready');
+            }}
             onConfirm={onConfirm}
           />
         )}

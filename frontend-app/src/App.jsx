@@ -3,12 +3,6 @@ import { SenderMain } from './components/SenderMain';
 import { makeJobId, makeReceiverSocket, makeSenderSocket } from './signal/signal-utils';
 import { Spinner } from './components/shared/Spinner';
 import { ReceiverMain } from './components/ReceiverMain';
-import styled from 'styled-components';
-import colors from 'tailwindcss/colors';
-
-const BackgroundText = styled.div`
-  text-shadow: -2px 3px ${colors.coolGray['800']}, -1px 2px ${colors.coolGray['800']}, 0 1px ${colors.coolGray['800']};
-`;
 
 const params = new URLSearchParams(window.location.search);
 const jobIdFromQuery = params.get('job_id');
@@ -70,7 +64,7 @@ const App = () => {
             </a>
             <a href="https://github.com/darkyzhou/junjun-transfer" className="pb-1">
               <img
-                className="inline "
+                className="inline"
                 src="https://img.shields.io/github/stars/darkyzhou/junjun-transfer?style=social"
               />
             </a>
@@ -102,9 +96,6 @@ const App = () => {
           </p>
           <p>可爱的猫咪图片来自 master1305、wirestock 和 winkimages</p>
         </footer>
-        <BackgroundText className="absolute left-[5vw] bottom-[10vh] max-w-[80vw] max-h-[80vh] text-gray-700 text-xl sm:text-2xl transform skew-x-[15deg] pointer-events-none overflow-hidden">
-          <pre>{JSON.stringify(iceServersInfo, null, 2)}</pre>
-        </BackgroundText>
       </div>
     </div>
   );

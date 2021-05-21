@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 
-const CAT_IMAGE_PATH = '/static/images';
+const CAT_IMAGE_PATH = '/images';
 const CAT_IMAGES = ['1.jpg', '2.jpg', '3.jpg'];
 
 export const CatImage = (props) => {

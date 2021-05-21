@@ -13,7 +13,7 @@ export default defineConfig({
         ws: true
       },
       '/ice': {
-        target: 'http://localhost:4000'
+        target: 'http://localhost:4600'
       }
     }
   }

@@ -22,6 +22,10 @@ const HeadTitle = styled.h2`
   -webkit-text-fill-color: transparent;
 `;
 
+const LogLine = styled.p`
+  margin: 4px 0;
+`;
+
 const App = () => {
   const [jobId, setJobId] = useState(jobIdFromQuery);
   const [socket, setSocket] = useState(null);
@@ -47,9 +51,9 @@ const App = () => {
     LOGGER.addEventListener(EVENT_NEW_LOG, ({ detail: { level, line } }) => {
       setLogLines((previous) => [
         ...previous,
-        <p key={line} className={level === 'debug' ? 'text-gray-500' : level === 'error' ? 'text-pink-700' : ''}>
+        <LogLine key={line} className={level === 'debug' ? 'text-gray-500' : level === 'error' ? 'text-pink-700' : ''}>
           {line}
-        </p>
+        </LogLine>
       ]);
     });
   }, []);
@@ -75,6 +79,7 @@ const App = () => {
   useEffect(async () => {
     const response = await fetch('/ice');
     const info = await response.json();
+    LOGGER.debug('[App] got ice info', info);
     setIceServersInfo(info);
   }, []);
 
@@ -139,7 +144,7 @@ const App = () => {
             查看日志
           </Button>
           <div className="flex-1 bg-gray-800 w-full overflow-auto relative" hidden={!showLog}>
-            <div className="p-2 sm:p-4 absolute inset-0 text-xs sm:text-sm font-mono">{logLines}</div>
+            <div className="p-2 sm:p-4 absolute inset-0 text-xs font-mono break-all">{logLines}</div>
           </div>
         </div>
         <footer className="relative z-10 flex-none text-center text-gray-400 p-2 text-xs sm:text-sm">

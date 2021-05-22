@@ -1,4 +1,4 @@
-import { LOGGER } from "../../utils/logger";
+import { LOGGER } from '../../utils/logger';
 
 const MAX_CHUNK_SIZE = 16 * 1024;
 const STATE_UPDATE_INTERVAL = 500;

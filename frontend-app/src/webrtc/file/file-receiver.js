@@ -26,7 +26,7 @@ export class FileReceiver {
     const metaBuffer = await this.receiver.receive(META_MESSAGE_BYTES);
     const meta = decodeMetaMessage(metaBuffer);
     this.target.dispatchEvent(new CustomEvent(EVENT_META_RECEIVED, { detail: { meta } }));
-    LOGGER.debug('[file-receiver] got meta:', meta);
+    LOGGER.info('[file-receiver] got meta:', meta);
 
     const onReceiverProgress = ({ detail: { newlyReceivedBytes } }) =>
       this.speedMonitor.addToCurrent(newlyReceivedBytes);
@@ -39,7 +39,7 @@ export class FileReceiver {
     this.speedMonitor.start(meta.size);
     const fileBuffer = await this.receiver.receive(meta.size);
     this.target.dispatchEvent(new CustomEvent(EVENT_FILE_RECEIVED));
-    LOGGER.debug('[file-receiver] successfully received a file');
+    LOGGER.info('[file-receiver] successfully received a file');
 
     this.receiver.removeEventListener(EVENT_PROGRESS, onReceiverProgress);
     this.receiver.removeEventListener(EVENT_RECEIVE_COMPLETED, onReceiverCompleted);

@@ -15,10 +15,10 @@ export class FileSender {
       name: file.name,
       type: file.type
     };
-    LOGGER.debug('[file-sender] sending meta', meta);
+    LOGGER.info('[file-sender] sending meta', meta);
     await this.transmitter.send(encodeMetaMessage(meta));
 
-    LOGGER.debug('[file-sender] sending file');
+    LOGGER.info('[file-sender] sending file');
     await this.transmitter.send(dataBuffer);
   }
 }

@@ -25,7 +25,7 @@ export class DataChannelReceiver {
       try {
         await this.#doReceive(bytesToReceive, resolve);
       } catch (error) {
-        LOGGER.debug('[data-channel-receiver] error', error);
+        LOGGER.error('[data-channel-receiver] error', error);
         reject(error);
       }
     });
@@ -37,7 +37,7 @@ export class DataChannelReceiver {
 
   #onReceiveData(receivedBuffer) {
     if (!this.currentResolve) {
-      LOGGER.debug('[data-channel-receiver] ignored newly received arraybuffer');
+      LOGGER.error('[data-channel-receiver] ignored newly received arraybuffer');
       return;
     }
     const length = receivedBuffer.byteLength;

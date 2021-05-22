@@ -23,7 +23,7 @@ export class ReceiverDataChannelBootstrapper {
     try {
       await this.#doBootstrap(serversInfo);
     } catch (error) {
-      LOGGER.debug('[receiver-data-channel-bootstrapper] error', error);
+      LOGGER.error('[receiver-data-channel-bootstrapper] error', error);
     }
   }
 
@@ -44,7 +44,7 @@ export class ReceiverDataChannelBootstrapper {
 
   async #handleOffer(offer) {
     console.assert(offer);
-    LOGGER.log('[receiver-data-channel-bootstrapper] received remote offer:', offer);
+    LOGGER.info('[receiver-data-channel-bootstrapper] received remote offer:', offer);
     await this.connection.setRemoteDescription(new RTCSessionDescription(offer));
     const answer = await this.connection.createAnswer();
     await this.connection.setLocalDescription(answer);

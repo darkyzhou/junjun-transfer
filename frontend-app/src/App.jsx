@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { SenderMain } from './components/SenderMain';
 import { makeJobId, makeReceiverSocket, makeSenderSocket } from './signal/signal-utils';
 import { Spinner } from './components/shared/Spinner';
@@ -15,13 +15,29 @@ const App = () => {
   const [socket, setSocket] = useState(null);
   const [iceServersInfo, setIceServersInfo] = useState(null);
   const [showLog, setShowLog] = useState(false);
-  const [logMessages, setLogMessages] = useState('');
+  const [logLines, setLogLines] = useState([]);
 
   const initializing = useMemo(() => !socket || !iceServersInfo, [socket, iceServersInfo]);
 
   useEffect(() => {
-    LOGGER.addEventListener(EVENT_NEW_LOG, ({ detail: { level, args } }) => {
-      setLogMessages((prev) => `${prev ? prev + '\n' : ''}${args.join(' ')}`);
+    window.onerror = function (message, url, lineNo, columnNo, error) {
+      LOGGER.error('caught javascript runtime error', {
+        message,
+        url,
+        lineNo,
+        columnNo,
+        error
+      });
+      setShowLog(true);
+    };
+
+    LOGGER.addEventListener(EVENT_NEW_LOG, ({ detail: { level, line } }) => {
+      setLogLines((previous) => [
+        ...previous,
+        <p key={line} className={level === 'debug' ? 'text-gray-500' : level === 'error' ? 'text-pink-700' : ''}>
+          {line}
+        </p>
+      ]);
     });
   }, []);
 
@@ -97,11 +113,9 @@ const App = () => {
           >
             查看日志
           </Button>
-          {showLog && (
-            <div className="flex-1 bg-gray-800 w-full overflow-auto relative">
-              <pre className="p-2 sm:p-4 absolute inset-0 text-xs sm:text-sm">{logMessages}</pre>
-            </div>
-          )}
+          <div className="flex-1 bg-gray-800 w-full overflow-auto relative" hidden={!showLog}>
+            <div className="p-2 sm:p-4 absolute inset-0 text-xs sm:text-sm font-mono">{logLines}</div>
+          </div>
         </div>
         <footer className="relative z-10 flex-none text-center text-gray-400 p-2 text-xs sm:text-sm">
           <p>

@@ -12,7 +12,7 @@ import { SenderSelectedFileCard } from './card/SenderSelectedFileCard';
 import { SenderInstructionPanel } from './panel/SenderInstructionPanel';
 import { ErrorMessagePanel } from './panel/ErrorMessagePanel';
 
-export const SenderMain = ({ socket, jobId, serversInfo, peerErrorMessage }) => {
+export const SenderMain = ({ socket, jobId, serversInfo, errorMessage }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileSender, setFileSender] = useState(null);
   const [transferStatus, setTransferStatus] = useState('initial');
@@ -61,7 +61,7 @@ export const SenderMain = ({ socket, jobId, serversInfo, peerErrorMessage }) => 
     <main className="p-4 md:p-8 lg:p-12 grid grid-cols-2 grid-rows-1 gap-4">
       <div className="flex flex-col items-center">
         <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 sm:mb-8">发送文件</h4>
-        {!peerErrorMessage && (
+        {!errorMessage && (
           <>
             {!selectedFile && (
               <SenderInstructionPanel
@@ -90,7 +90,7 @@ export const SenderMain = ({ socket, jobId, serversInfo, peerErrorMessage }) => 
             )}
           </>
         )}
-        {peerErrorMessage && <ErrorMessagePanel className="flex-1 w-full" message={peerErrorMessage} />}
+        {errorMessage && <ErrorMessagePanel className="flex-1 w-full" message={errorMessage} />}
       </div>
       <div className="flex flex-col items-center">
         <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 sm:mb-8">接收文件</h4>

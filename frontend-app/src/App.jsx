@@ -16,7 +16,7 @@ const App = () => {
   const [iceServersInfo, setIceServersInfo] = useState(null);
   const [showLog, setShowLog] = useState(false);
   const [logLines, setLogLines] = useState([]);
-  const [peerErrorMessage, setPeerErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const initializing = useMemo(() => !socket || !iceServersInfo, [socket, iceServersInfo]);
 
@@ -51,7 +51,12 @@ const App = () => {
     } else {
       socket = makeReceiverSocket(jobId);
     }
-    socket.on('ERROR', ({ message }) => setPeerErrorMessage(message));
+    socket.on('ERROR', ({ message }) => setErrorMessage(message));
+    socket.on('disconnect', (reason) => {
+      if (['io server disconnect', 'io client disconnect'].includes(reason)) {
+        setErrorMessage(`信令连接已断开：${reason}`);
+      }
+    });
     socket.on('connect', () => setSocket(socket));
   }, []);
 
@@ -106,15 +111,10 @@ const App = () => {
             </main>
           )}
           {!initializing && isSender && (
-            <SenderMain
-              socket={socket}
-              jobId={jobId}
-              serversInfo={iceServersInfo}
-              peerErrorMessage={peerErrorMessage}
-            />
+            <SenderMain socket={socket} jobId={jobId} serversInfo={iceServersInfo} errorMessage={errorMessage} />
           )}
           {!initializing && !isSender && (
-            <ReceiverMain socket={socket} serversInfo={iceServersInfo} peerErrorMessage={peerErrorMessage} />
+            <ReceiverMain socket={socket} serversInfo={iceServersInfo} errorMessage={errorMessage} />
           )}
         </div>
         <div className="flex-1 mx-auto text-gray-400 flex flex-col-reverse w-full items-center">

@@ -14,7 +14,7 @@ import { EVENT_TRANSFER_SPEED_UPDATE } from '../webrtc/file/transfer-speed-monit
 import { FileInfo } from './shared/FileInfo';
 import { ErrorMessagePanel } from './panel/ErrorMessagePanel';
 
-export const ReceiverMain = ({ socket, serversInfo, peerErrorMessage }) => {
+export const ReceiverMain = ({ socket, serversInfo, errorMessage }) => {
   const [fileMeta, setFileMeta] = useState(null);
   const [fileReceiver, setFileReceiver] = useState(null);
   const [transferStatus, setTransferStatus] = useState('initial');
@@ -66,7 +66,7 @@ export const ReceiverMain = ({ socket, serversInfo, peerErrorMessage }) => {
     <main className="p-4 md:p-8 lg:p-12 grid grid-cols-2 grid-rows-1 gap-4">
       <div className="flex flex-col items-center">
         <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 sm:mb-8">发送文件</h4>
-        {!peerErrorMessage && (
+        {!errorMessage && (
           <>
             {transferStatus === 'initial' && (
               <ConnectionStatusIndicatorCard className="flex-1" spinner={true} message={'正在连接发送方...'} />
@@ -104,7 +104,7 @@ export const ReceiverMain = ({ socket, serversInfo, peerErrorMessage }) => {
             )}
           </>
         )}
-        {peerErrorMessage && <ErrorMessagePanel className="flex-1 w-full" message={peerErrorMessage} />}
+        {errorMessage && <ErrorMessagePanel className="flex-1 w-full" message={errorMessage} />}
       </div>
       <div className="flex flex-col items-center">
         <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 sm:mb-8">接收文件</h4>

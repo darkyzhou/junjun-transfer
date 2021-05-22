@@ -39,10 +39,10 @@ export const SenderMain = ({ socket, jobId, serversInfo, errorMessage }) => {
     });
 
     bootstrapper.bootstrap(serversInfo);
-  }, [socket]);
+  }, []); // TODO: no socket for deps, is it ok?
 
   useEffect(() => {
-    if (!fileSender) {
+    if (!fileSender || !socket) {
       return;
     }
     socket.on('EVENT_RECEIVER_PROGRESS', ({ avgSpeed, speed, current, goal }) => {
@@ -55,70 +55,70 @@ export const SenderMain = ({ socket, jobId, serversInfo, errorMessage }) => {
         setTransferStatus('completed');
       }
     });
-  }, [fileSender]);
+  }, [fileSender, socket]);
 
   return (
     <main className="p-4 md:p-8 lg:p-12 grid grid-cols-2 grid-rows-1 gap-4">
       <div className="flex flex-col items-center">
         <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 sm:mb-8">发送文件</h4>
+        {!selectedFile && (
+          <SenderInstructionPanel
+            className="flex-1 w-full"
+            onSelectFile={(file) => {
+              if (file.size > 0) {
+                setSelectedFile(file);
+              }
+            }}
+          />
+        )}
+        {selectedFile && (
+          <SenderSelectedFileCard
+            className="flex-1 w-full"
+            file={selectedFile}
+            canSend={!!fileSender}
+            sending={transferStatus === 'transferring'}
+            onCancel={() => {
+              if (transferStatus === 'completed') {
+                setTransferStatus('ready');
+              }
+              setSelectedFile(null);
+            }}
+            onConfirm={onConfirm}
+          />
+        )}
+      </div>
+      <div className="flex flex-col items-center">
+        <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 sm:mb-8">接收文件</h4>
         {!errorMessage && (
           <>
-            {!selectedFile && (
-              <SenderInstructionPanel
-                className="flex-1 w-full"
-                onSelectFile={(file) => {
-                  if (file.size > 0) {
-                    setSelectedFile(file);
-                  }
-                }}
+            {transferStatus === 'initial' && <ReceiverInstructionPanel className="flex-1" url={receiverUrl} />}
+            {transferStatus === 'connected' && (
+              <ConnectionStatusIndicatorCard
+                className="flex-1"
+                spinner={true}
+                message={'伙伴已经打开了俊俊快传，浏览器正在建立 WebRTC 连接...'}
               />
             )}
-            {selectedFile && (
-              <SenderSelectedFileCard
-                className="flex-1 w-full"
-                file={selectedFile}
-                canSend={!!fileSender}
-                sending={transferStatus === 'transferring'}
-                onCancel={() => {
-                  if (transferStatus === 'completed') {
-                    setTransferStatus('ready');
-                  }
-                  setSelectedFile(null);
-                }}
-                onConfirm={onConfirm}
+            {transferStatus === 'ready' && (
+              <ConnectionStatusIndicatorCard
+                className="flex-1"
+                spinner={false}
+                message={'伙伴已经连接到你的浏览器，就等你选好文件开始发送了！'}
+              />
+            )}
+            {(transferStatus === 'transferring' || transferStatus === 'completed') && (
+              <ReceiverFileCard
+                className="flex-1"
+                fileName={selectedFile.name}
+                receivedSize={transferStats.current}
+                type={selectedFile.type}
+                progress={transferStats.progress}
+                speed={transferStats.speed}
               />
             )}
           </>
         )}
         {errorMessage && <ErrorMessagePanel className="flex-1 w-full" message={errorMessage} />}
-      </div>
-      <div className="flex flex-col items-center">
-        <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 sm:mb-8">接收文件</h4>
-        {transferStatus === 'initial' && <ReceiverInstructionPanel className="flex-1" url={receiverUrl} />}
-        {transferStatus === 'connected' && (
-          <ConnectionStatusIndicatorCard
-            className="flex-1"
-            spinner={true}
-            message={'伙伴已经打开了俊俊快传，浏览器正在建立 WebRTC 连接...'}
-          />
-        )}
-        {transferStatus === 'ready' && (
-          <ConnectionStatusIndicatorCard
-            className="flex-1"
-            spinner={false}
-            message={'伙伴已经连接到你的浏览器，就等你选好文件开始发送了！'}
-          />
-        )}
-        {(transferStatus === 'transferring' || transferStatus === 'completed') && (
-          <ReceiverFileCard
-            className="flex-1"
-            fileName={selectedFile.name}
-            receivedSize={transferStats.current}
-            type={selectedFile.type}
-            progress={transferStats.progress}
-            speed={transferStats.speed}
-          />
-        )}
       </div>
     </main>
   );

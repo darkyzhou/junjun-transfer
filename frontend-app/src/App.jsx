@@ -68,6 +68,7 @@ const App = () => {
       socket = makeReceiverSocket(jobId);
     }
     socket.on('ERROR', ({ message }) => setErrorMessage(message));
+    socket.on('EVENT_PEER_LEFT', () => setErrorMessage('对方已经关闭俊俊快传'));
     socket.on('disconnect', (reason) => {
       if (['io server disconnect', 'io client disconnect'].includes(reason)) {
         setErrorMessage(`信令连接已断开：${reason}`);

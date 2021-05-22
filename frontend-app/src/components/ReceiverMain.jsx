@@ -35,10 +35,10 @@ export const ReceiverMain = ({ socket, serversInfo, errorMessage }) => {
     });
 
     bootstrapper.bootstrap(serversInfo);
-  }, [socket]);
+  }, []); // TODO: no socket for deps, it is ok?
 
   useEffect(() => {
-    if (!fileReceiver) {
+    if (!fileReceiver || !socket) {
       return;
     }
     fileReceiver.addEventListener(EVENT_META_RECEIVED, ({ detail: { meta } }) => {
@@ -60,7 +60,7 @@ export const ReceiverMain = ({ socket, serversInfo, errorMessage }) => {
         goal
       });
     });
-  }, [fileReceiver]);
+  }, [fileReceiver, socket]);
 
   return (
     <main className="p-4 md:p-8 lg:p-12 grid grid-cols-2 grid-rows-1 gap-4">

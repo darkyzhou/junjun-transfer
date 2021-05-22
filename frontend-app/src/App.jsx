@@ -155,7 +155,7 @@ const App = () => {
           >
             <IceServersPanel iceServersInfo={iceServersInfo?.servers} />
           </div>
-          <div className="flex-1 bg-gray-800 w-full overflow-auto relative rounded" hidden={!showLog}>
+          <div className="flex-1 w-full relative rounded" hidden={!showLog}>
             <LogPanel />
           </div>
         </div>

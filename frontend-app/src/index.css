@@ -20,6 +20,6 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background-color: #9ca3af;
-  border: 6px solid transparent;
+  border: 5px solid transparent;
   background-clip: content-box;
 }

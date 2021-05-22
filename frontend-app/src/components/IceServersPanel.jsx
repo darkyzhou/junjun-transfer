@@ -8,7 +8,7 @@ const Container = styled.div`
 export const IceServersPanel = ({ iceServersInfo = [] }) => {
   return (
     <div className="absolute inset-0">
-      <Container className="mx-auto w-max h-full flex flex-col items-center overflow-auto overscroll-auto">
+      <Container className="p-2 mx-auto w-max h-full flex flex-col items-center overflow-auto overscroll-auto">
         {iceServersInfo.map(({ id, url, displayName, description }) => (
           <div key={id} className="px-4 py-2 flex-col my-2 bg-gray-800 rounded w-full max-w-[32rem] shadow">
             <div className="flex-1 flex justify-between items-baseline mb-1">

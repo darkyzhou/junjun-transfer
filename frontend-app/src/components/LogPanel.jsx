@@ -16,7 +16,7 @@ export const LogPanel = () => {
   }, []);
 
   return (
-    <div className="p-2 sm:p-4 absolute inset-0 text-xs font-mono break-all">
+    <div className="m-2 p-1 pr-0 sm:p-4 absolute inset-0 text-xs font-mono break-all bg-gray-800 overflow-auto rounded">
       {logs.map(({ level, line }) => (
         <LogLine key={line} className={level === 'debug' ? 'text-gray-500' : level === 'error' ? 'text-pink-700' : ''}>
           {line}

@@ -16,6 +16,7 @@ const App = () => {
   const [iceServersInfo, setIceServersInfo] = useState(null);
   const [showLog, setShowLog] = useState(false);
   const [logLines, setLogLines] = useState([]);
+  const [peerErrorMessage, setPeerErrorMessage] = useState(null);
 
   const initializing = useMemo(() => !socket || !iceServersInfo, [socket, iceServersInfo]);
 
@@ -50,6 +51,7 @@ const App = () => {
     } else {
       socket = makeReceiverSocket(jobId);
     }
+    socket.on('ERROR', ({ message }) => setPeerErrorMessage(message));
     socket.on('connect', () => setSocket(socket));
   }, []);
 
@@ -103,8 +105,17 @@ const App = () => {
               <p>正在连接</p>
             </main>
           )}
-          {!initializing && isSender && <SenderMain socket={socket} jobId={jobId} serversInfo={iceServersInfo} />}
-          {!initializing && !isSender && <ReceiverMain socket={socket} serversInfo={iceServersInfo} />}
+          {!initializing && isSender && (
+            <SenderMain
+              socket={socket}
+              jobId={jobId}
+              serversInfo={iceServersInfo}
+              peerErrorMessage={peerErrorMessage}
+            />
+          )}
+          {!initializing && !isSender && (
+            <ReceiverMain socket={socket} serversInfo={iceServersInfo} peerErrorMessage={peerErrorMessage} />
+          )}
         </div>
         <div className="flex-1 mx-auto text-gray-400 flex flex-col-reverse w-full items-center">
           <Button
@@ -125,13 +136,13 @@ const App = () => {
             </a>
           </p>
           <p>
-            网站的图标来自 Twitter，遵循{' '}
+            Emoji 图标来自 Twitter，遵循{' '}
             <a className="underline" href="https://creativecommons.org/licenses/by/4.0/">
               CC-BY 4.0
             </a>{' '}
             协议
           </p>
-          <p>可爱的猫咪图片来自 master1305、wirestock 和 winkimages</p>
+          <p>猫咪图片来自 master1305、wirestock 和 winkimages</p>
         </footer>
       </div>
     </div>

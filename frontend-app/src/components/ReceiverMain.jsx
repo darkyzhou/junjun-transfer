@@ -12,8 +12,9 @@ import { EVENT_FILE_RECEIVED, EVENT_META_RECEIVED, FileReceiver } from '../webrt
 import { saveArraybufferAsFile } from '../utils/save-arraybuffer-as-file';
 import { EVENT_TRANSFER_SPEED_UPDATE } from '../webrtc/file/transfer-speed-monitor';
 import { FileInfo } from './shared/FileInfo';
+import { ErrorMessagePanel } from './panel/ErrorMessagePanel';
 
-export const ReceiverMain = ({ socket, serversInfo }) => {
+export const ReceiverMain = ({ socket, serversInfo, peerErrorMessage }) => {
   const [fileMeta, setFileMeta] = useState(null);
   const [fileReceiver, setFileReceiver] = useState(null);
   const [transferStatus, setTransferStatus] = useState('initial');
@@ -65,36 +66,45 @@ export const ReceiverMain = ({ socket, serversInfo }) => {
     <main className="p-4 md:p-8 lg:p-12 grid grid-cols-2 grid-rows-1 gap-4">
       <div className="flex flex-col items-center">
         <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 sm:mb-8">发送文件</h4>
-        {transferStatus === 'initial' && (
-          <ConnectionStatusIndicatorCard className="flex-1" spinner={true} message={'正在连接发送方...'} />
+        {!peerErrorMessage && (
+          <>
+            {transferStatus === 'initial' && (
+              <ConnectionStatusIndicatorCard className="flex-1" spinner={true} message={'正在连接发送方...'} />
+            )}
+            {transferStatus === 'connected' && (
+              <ConnectionStatusIndicatorCard
+                className="flex-1"
+                spinner={true}
+                message={'正在尝试建立 WebRTC 连接...'}
+              />
+            )}
+            {transferStatus === 'ready' && (
+              <ConnectionStatusIndicatorCard
+                className="flex-1"
+                spinner={false}
+                message={'连接成功建立，等待发送方选择文件并发送'}
+              />
+            )}
+            {transferStatus === 'transferring' && !fileMeta && (
+              <ConnectionStatusIndicatorCard
+                className="flex-1"
+                spinner={false}
+                message={'发送方开始发送文件，等待元数据...'}
+              />
+            )}
+            {transferStatus === 'transferring' && fileMeta && (
+              <CardContainer className="flex-1" bottom={<div className="text-center text-sm p-2">正在发送...</div>}>
+                <FileInfo name={fileMeta.name} size={fileMeta.size} type={fileMeta.type} />
+              </CardContainer>
+            )}
+            {transferStatus === 'completed' && (
+              <CardContainer className="flex-1" bottom={<div className="text-center text-sm p-2">发送完成</div>}>
+                <FileInfo name={fileMeta.name} size={fileMeta.size} type={fileMeta.type} />
+              </CardContainer>
+            )}
+          </>
         )}
-        {transferStatus === 'connected' && (
-          <ConnectionStatusIndicatorCard className="flex-1" spinner={true} message={'正在尝试建立 WebRTC 连接...'} />
-        )}
-        {transferStatus === 'ready' && (
-          <ConnectionStatusIndicatorCard
-            className="flex-1"
-            spinner={false}
-            message={'连接成功建立，等待发送方选择文件并发送'}
-          />
-        )}
-        {transferStatus === 'transferring' && !fileMeta && (
-          <ConnectionStatusIndicatorCard
-            className="flex-1"
-            spinner={false}
-            message={'发送方开始发送文件，等待元数据...'}
-          />
-        )}
-        {transferStatus === 'transferring' && fileMeta && (
-          <CardContainer className="flex-1" bottom={<div className="text-center text-sm p-2">正在发送...</div>}>
-            <FileInfo name={fileMeta.name} size={fileMeta.size} type={fileMeta.type} />
-          </CardContainer>
-        )}
-        {transferStatus === 'completed' && (
-          <CardContainer className="flex-1" bottom={<div className="text-center text-sm p-2">发送完成</div>}>
-            <FileInfo name={fileMeta.name} size={fileMeta.size} type={fileMeta.type} />
-          </CardContainer>
-        )}
+        {peerErrorMessage && <ErrorMessagePanel className="flex-1 w-full" message={peerErrorMessage} />}
       </div>
       <div className="flex flex-col items-center">
         <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 sm:mb-8">接收文件</h4>

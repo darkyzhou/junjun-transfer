@@ -69,28 +69,16 @@ export const ReceiverMain = ({ socket, serversInfo, errorMessage }) => {
         {!errorMessage && (
           <>
             {transferStatus === 'initial' && (
-              <ConnectionStatusIndicatorCard className="flex-1" spinner={true} message={'正在连接发送方...'} />
+              <ConnectionStatusIndicatorCard className="flex-1" message={'正在连接发送方...'} />
             )}
             {transferStatus === 'connected' && (
-              <ConnectionStatusIndicatorCard
-                className="flex-1"
-                spinner={true}
-                message={'正在尝试建立 WebRTC 连接...'}
-              />
+              <ConnectionStatusIndicatorCard className="flex-1" message={'正在尝试建立 WebRTC 连接...'} />
             )}
             {transferStatus === 'ready' && (
-              <ConnectionStatusIndicatorCard
-                className="flex-1"
-                spinner={false}
-                message={'连接成功建立，等待发送方选择文件并发送'}
-              />
+              <ConnectionStatusIndicatorCard className="flex-1" message={'连接成功建立，等待发送方选择文件并发送'} />
             )}
             {transferStatus === 'transferring' && !fileMeta && (
-              <ConnectionStatusIndicatorCard
-                className="flex-1"
-                spinner={false}
-                message={'发送方开始发送文件，等待元数据...'}
-              />
+              <ConnectionStatusIndicatorCard className="flex-1" message={'发送方开始发送文件，等待元数据...'} />
             )}
             {transferStatus === 'transferring' && fileMeta && (
               <CardContainer className="flex-1" bottom={<div className="text-center text-sm p-2">正在发送...</div>}>

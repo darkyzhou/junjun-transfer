@@ -95,14 +95,12 @@ export const SenderMain = ({ socket, jobId, serversInfo, errorMessage }) => {
             {transferStatus === 'connected' && (
               <ConnectionStatusIndicatorCard
                 className="flex-1"
-                spinner={true}
                 message={'伙伴已经打开了俊俊快传，浏览器正在建立 WebRTC 连接...'}
               />
             )}
             {transferStatus === 'ready' && (
               <ConnectionStatusIndicatorCard
                 className="flex-1"
-                spinner={false}
                 message={'伙伴已经连接到你的浏览器，就等你选好文件开始发送了！'}
               />
             )}

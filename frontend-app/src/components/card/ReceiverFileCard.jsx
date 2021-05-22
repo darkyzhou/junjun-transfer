@@ -10,8 +10,8 @@ export const ReceiverFileCard = ({ className, fileName, receivedSize, type, prog
       className={className}
       bottom={
         <ProgressBar progress={progress}>
-          <div className="text-center text-sm p-2">
-            {progress < 100 && `紧张接收中：${bytesPerSecondsToHumanFriendlyText(speed)}`}
+          <div className="text-center text-xs sm:text-sm p-2">
+            {progress < 100 && `接收中：${bytesPerSecondsToHumanFriendlyText(speed)}`}
             {progress >= 100 && '接收完成'}
           </div>
         </ProgressBar>

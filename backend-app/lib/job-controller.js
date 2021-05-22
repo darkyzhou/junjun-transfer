@@ -15,7 +15,7 @@ class JobController {
         const { jobId } = socket.handshake.query;
         this.#checkJobId(jobId);
         if (this.jobMap.has(jobId)) {
-          throw new Error('传输码对应的传输已经在进行');
+          throw new Error('当前传输码正在被使用中');
         }
 
         const job = new Job(jobId, () => this.#onJobDestroy(jobId));
@@ -28,7 +28,7 @@ class JobController {
         const { jobId } = socket.handshake.query;
         this.#checkJobId(jobId);
         if (!this.jobMap.has(jobId)) {
-          throw new Error('传输码对应的传输不存在');
+          throw new Error('当前传输码已经失效');
         }
 
         const job = this.jobMap.get(jobId);
@@ -51,7 +51,7 @@ class JobController {
       throw new Error('未指定传输码');
     }
     if (!JOB_ID_PATTERN.test(jobId)) {
-      throw new Error('给定的传输码格式有误');
+      throw new Error('当前传输码格式有误');
     }
   }
 

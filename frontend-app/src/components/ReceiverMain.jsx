@@ -49,7 +49,7 @@ export const ReceiverMain = ({ socket, serversInfo, errorMessage }) => {
     const { speedMonitor } = fileReceiver;
     speedMonitor.addEventListener(EVENT_TRANSFER_SPEED_UPDATE, ({ detail: { avgSpeed, speed, current, goal } }) => {
       setTransferStats({
-        speed: speed <= 0 ? avgSpeed : speed,
+        speed,
         progress: Math.floor((100 * current) / goal),
         current
       });

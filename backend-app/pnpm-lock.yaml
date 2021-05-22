@@ -1,12 +1,14 @@
 lockfileVersion: 5.3
 
 specifiers:
+  exit-hook-plus: ^0.2.0
   express: ^4.17.1
   nodemon: ^2.0.7
   prettier: ^2.2.1
   socket.io: ^4.0.1
 
 dependencies:
+  exit-hook-plus: 0.2.0
   express: 4.17.1
   socket.io: 4.0.1
 
@@ -403,6 +405,10 @@ packages:
   /etag/1.8.1:
     resolution: {integrity: sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=}
     engines: {node: '>= 0.6'}
+    dev: false
+
+  /exit-hook-plus/0.2.0:
+    resolution: {integrity: sha512-VkR/dsiH+JnlRYIC6iQ6ShXpVi1sNJKsBN7OVHDrvBFkC8gtjuk8AhvMVnFTX+CvhasYd+r2fPopUxyvJxr5mQ==}
     dev: false
 
   /express/4.17.1:

@@ -11,6 +11,7 @@
     "prettier": "^2.2.1"
   },
   "dependencies": {
+    "exit-hook-plus": "^0.2.0",
     "express": "^4.17.1",
     "socket.io": "^4.0.1"
   }

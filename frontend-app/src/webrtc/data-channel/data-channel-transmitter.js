@@ -1,6 +1,5 @@
 import { LOGGER } from '../../utils/logger';
 
-const DEFAULT_CHUNK_SIZE = 2 * 1024;
 const MAX_CHUNK_SIZE = 16 * 1024;
 const STATE_UPDATE_INTERVAL = 500;
 
@@ -8,7 +7,9 @@ export class DataChannelTransmitter {
   constructor(connection, dataChannel) {
     this.dataChannel = dataChannel;
     // only chrome and edge support sctp.maxMessageSize now
-    this.chunkSize = Math.min(connection.sctp?.maxMessageSize || DEFAULT_CHUNK_SIZE, MAX_CHUNK_SIZE);
+    // as for browsers such as safari, it seems that we can just use MAX_CHUNK_SIZE instead
+    // see: https://stackoverflow.com/questions/60140389/rtcdatachannels-bufferedamountlow-event-not-firing-in-safari
+    this.chunkSize = Math.min(connection.sctp?.maxMessageSize || MAX_CHUNK_SIZE, MAX_CHUNK_SIZE);
     this.dataChannel.bufferedAmountLowThreshold = this.chunkSize;
     this.highWaterMark = this.chunkSize * 8;
     this.#reset();

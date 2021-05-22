@@ -5,10 +5,22 @@ import { Spinner } from './components/shared/Spinner';
 import { ReceiverMain } from './components/ReceiverMain';
 import { Button } from './components/shared/Button';
 import { EVENT_NEW_LOG, LOGGER } from './utils/logger';
+import styled from 'styled-components';
 
 const params = new URLSearchParams(window.location.search);
 const jobIdFromQuery = params.get('job_id');
 const isSender = !jobIdFromQuery;
+
+const Background = styled.div`
+  background-color: #111827;
+  background-image: url("data:image/svg+xml,%3Csvg width='128' height='128' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 16c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm0-2c3.314 0 6-2.686 6-6s-2.686-6-6-6-6 2.686-6 6 2.686 6 6 6zm33.414-6l5.95-5.95L45.95.636 40 6.586 34.05.636 32.636 2.05 38.586 8l-5.95 5.95 1.414 1.414L40 9.414l5.95 5.95 1.414-1.414L41.414 8zM40 48c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm0-2c3.314 0 6-2.686 6-6s-2.686-6-6-6-6 2.686-6 6 2.686 6 6 6zM9.414 40l5.95-5.95-1.414-1.414L8 38.586l-5.95-5.95L.636 34.05 6.586 40l-5.95 5.95 1.414 1.414L8 41.414l5.95 5.95 1.414-1.414L9.414 40z' fill='%239ca3af' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+`;
+
+const HeadTitle = styled.h2`
+  background: -webkit-linear-gradient(#e5e7eb 50%, #9ca3af);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+`;
 
 const App = () => {
   const [jobId, setJobId] = useState(jobIdFromQuery);
@@ -67,10 +79,12 @@ const App = () => {
   }, []);
 
   return (
-    <div className="bg-gray-900 relative">
+    <Background className="bg-gray-900 relative">
       <div className="max-w-[850px] mx-auto h-screen flex flex-col">
         <div className="relative z-10 flex-none text-center text-gray-300 my-8 p-1">
-          <h2 className="text-gray-200 font-zcool text-6xl sm:text-8xl tracking-wider mb-2 sm:mb-4">俊俊快传</h2>
+          <HeadTitle className="text-gray-200 font-zcool text-6xl sm:text-8xl tracking-wider mb-2 sm:mb-4">
+            俊俊快传
+          </HeadTitle>
           <p className="text-sm sm:text-xl text-gray-400 tracking-wider">基于 WebRTC 技术的浏览器点对点文件传输工具</p>
           <p className="flex items-center justify-center text-sm">
             <a
@@ -145,7 +159,7 @@ const App = () => {
           <p>猫咪图片来自 master1305、wirestock 和 winkimages</p>
         </footer>
       </div>
-    </div>
+    </Background>
   );
 };
 

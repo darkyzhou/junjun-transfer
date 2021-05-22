@@ -5,7 +5,15 @@
       "type": "stun",
       "id": "local-test",
       "url": "stun:192.168.20.88:3478",
-      "displayName": "Local Test"
+      "displayName": "Local Test A",
+      "description": "I am for local development only!"
+    },
+    {
+      "type": "stun",
+      "id": "local-test",
+      "url": "stun:127.0.0.1:3478",
+      "displayName": "Local Test B",
+      "description": "I am for local development only!"
     }
   ]
 }

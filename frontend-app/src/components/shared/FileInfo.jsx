@@ -1,5 +1,5 @@
 import React from 'react';
-import { FileIcon } from '../FileIcon';
+import { FileIcon } from './FileIcon';
 import { bytesCountToHumanFriendlyText } from '../../utils/size';
 
 export const FileInfo = ({ name, size = 0, type = '', children }) => {

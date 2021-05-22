@@ -4,8 +4,10 @@ import { makeJobId, makeReceiverSocket, makeSenderSocket } from './signal/signal
 import { Spinner } from './components/shared/Spinner';
 import { ReceiverMain } from './components/ReceiverMain';
 import { Button } from './components/shared/Button';
-import { EVENT_NEW_LOG, LOGGER } from './utils/logger';
+import { LOGGER } from './utils/logger';
 import styled from 'styled-components';
+import { LogPanel } from './components/LogPanel';
+import { IceServersPanel } from './components/IceServersPanel';
 
 const params = new URLSearchParams(window.location.search);
 const jobIdFromQuery = params.get('job_id');
@@ -22,16 +24,12 @@ const HeadTitle = styled.h2`
   -webkit-text-fill-color: transparent;
 `;
 
-const LogLine = styled.p`
-  margin: 4px 0;
-`;
-
 const App = () => {
   const [jobId, setJobId] = useState(jobIdFromQuery);
   const [socket, setSocket] = useState(null);
   const [iceServersInfo, setIceServersInfo] = useState(null);
+  const [showIceServers, setShowIceServers] = useState(false);
   const [showLog, setShowLog] = useState(false);
-  const [logLines, setLogLines] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
 
   const initializing = useMemo(() => !socket || !iceServersInfo, [socket, iceServersInfo]);
@@ -47,15 +45,6 @@ const App = () => {
       });
       setShowLog(true);
     };
-
-    LOGGER.addEventListener(EVENT_NEW_LOG, ({ detail: { level, line } }) => {
-      setLogLines((previous) => [
-        ...previous,
-        <LogLine key={line} className={level === 'debug' ? 'text-gray-500' : level === 'error' ? 'text-pink-700' : ''}>
-          {line}
-        </LogLine>
-      ]);
-    });
   }, []);
 
   useEffect(() => {
@@ -126,8 +115,8 @@ const App = () => {
         <div className="relative z-10 flex-1">
           {initializing && (
             <main className="p-12 text-gray-300 flex flex-col items-center">
-              <Spinner className="w-36 h-36" />
-              <p>正在连接</p>
+              <Spinner className="w-24 h-24 mb-4" />
+              <p className="text-xl">正在连接</p>
             </main>
           )}
           {!initializing && isSender && (
@@ -138,14 +127,36 @@ const App = () => {
           )}
         </div>
         <div className="flex-1 mx-auto text-gray-400 flex flex-col-reverse w-full items-center">
-          <Button
-            className="mt-2 !px-2 !py-1 text-xs sm:text-sm flex-none rounded w-max"
-            onClick={() => setShowLog(!showLog)}
+          <div className="flex-none flex">
+            {iceServersInfo && (
+              <Button
+                className="mt-2 !px-2 !py-1 text-xs sm:text-sm flex-none rounded w-max mr-2"
+                onClick={() => {
+                  setShowIceServers(!showIceServers);
+                  setShowLog(false);
+                }}
+              >
+                查看 ICE 服务器
+              </Button>
+            )}
+            <Button
+              className="mt-2 !px-2 !py-1 text-xs sm:text-sm flex-none rounded w-max"
+              onClick={() => {
+                setShowLog(!showLog);
+                setShowIceServers(false);
+              }}
+            >
+              查看日志
+            </Button>
+          </div>
+          <div
+            className={`flex-1 w-full rounded overflow-auto relative ${showIceServers && 'flex flex-col-reverse'}`}
+            hidden={!showIceServers}
           >
-            查看日志
-          </Button>
-          <div className="flex-1 bg-gray-800 w-full overflow-auto relative" hidden={!showLog}>
-            <div className="p-2 sm:p-4 absolute inset-0 text-xs font-mono break-all">{logLines}</div>
+            <IceServersPanel iceServersInfo={iceServersInfo?.servers} />
+          </div>
+          <div className="flex-1 bg-gray-800 w-full overflow-auto relative rounded" hidden={!showLog}>
+            <LogPanel />
           </div>
         </div>
         <footer className="relative z-10 flex-none text-center text-gray-400 p-2 text-xs sm:text-sm">

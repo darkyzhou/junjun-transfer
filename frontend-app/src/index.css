@@ -9,3 +9,17 @@ body {
 .font-zcool {
   font-family: 'ZCOOL QingKe HuangYou', cursive;
 }
+
+::-webkit-scrollbar {
+  width: 18px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #9ca3af;
+  border: 6px solid transparent;
+  background-clip: content-box;
+}

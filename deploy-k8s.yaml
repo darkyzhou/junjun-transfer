@@ -19,7 +19,8 @@ data:
           "type": "stun",
           "id": "my-stun-server",
           "url": "stun:my-domain:3478",
-          "displayName": "My stun server"
+          "displayName": "My stun server",
+          "description": "Hi, I am a stun server"
         }
       ]
     }

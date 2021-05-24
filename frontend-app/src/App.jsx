@@ -19,7 +19,7 @@ const Background = styled.div`
 `;
 
 const HeadTitle = styled.h2`
-  background: -webkit-linear-gradient(#e5e7eb 50%, #9ca3af);
+  background: -webkit-linear-gradient(#e5e7eb 40%, #9ca3af 70%, #6b7280);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 `;

@@ -8,8 +8,8 @@ export const FileInfo = ({ name, size = 0, type = '', children }) => {
       <FileIcon fileType={type} />
       <div className="text-sm">
         <p className="max-h-[4rem] overflow-hidden">{name}</p>
-        <p>{type}</p>
-        <p>{bytesCountToHumanFriendlyText(size)}</p>
+        <p className="text-xs sm:text-sm font-mono">{type}</p>
+        <p className="text-xs sm:text-sm font-mono">{bytesCountToHumanFriendlyText(size)}</p>
         {children}
       </div>
     </div>

@@ -47,7 +47,8 @@ export const SenderMain = ({ socket, jobId, serversInfo, errorMessage }) => {
     }
     socket.on('EVENT_RECEIVER_PROGRESS', ({ avgSpeed, speed, current, goal }) => {
       setTransferStats({
-        speed: speed <= 0 ? avgSpeed : speed,
+        speed,
+        avgSpeed,
         progress: Math.floor((100 * current) / goal),
         current
       });
@@ -112,6 +113,7 @@ export const SenderMain = ({ socket, jobId, serversInfo, errorMessage }) => {
                 type={selectedFile.type}
                 progress={transferStats.progress}
                 speed={transferStats.speed}
+                avgSpeed={transferStats.avgSpeed}
               />
             )}
           </>

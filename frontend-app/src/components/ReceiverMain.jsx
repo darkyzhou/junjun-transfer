@@ -50,6 +50,7 @@ export const ReceiverMain = ({ socket, serversInfo, errorMessage }) => {
     speedMonitor.addEventListener(EVENT_TRANSFER_SPEED_UPDATE, ({ detail: { avgSpeed, speed, current, goal } }) => {
       setTransferStats({
         speed,
+        avgSpeed,
         progress: Math.floor((100 * current) / goal),
         current
       });
@@ -105,6 +106,7 @@ export const ReceiverMain = ({ socket, serversInfo, errorMessage }) => {
             type={fileMeta.type}
             progress={transferStats.progress}
             speed={transferStats.speed}
+            avgSpeed={transferStats.avgSpeed}
           />
         )}
       </div>

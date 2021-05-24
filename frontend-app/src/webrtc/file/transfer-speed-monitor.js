@@ -7,6 +7,7 @@ export class TransferSpeedMonitor {
     this.last = 0;
     this.current = 0;
     this.goal = 0;
+    this.startTimestamp = 0;
     this.cancelled = true;
     this.target = new EventTarget();
   }
@@ -27,6 +28,7 @@ export class TransferSpeedMonitor {
     this.last = this.current = 0;
     this.goal = goal;
     this.cancelled = false;
+    this.startTimestamp = Date.now();
     setTimeout(() => this.#emitSpeed(), DURATION);
   }
 
@@ -45,7 +47,7 @@ export class TransferSpeedMonitor {
       current: this.current,
       goal: this.goal,
       speed: Math.round(delta / (DURATION / 1000)),
-      avgSpeed: Math.round(this.current / (DURATION / 1000))
+      avgSpeed: Math.round(this.current / ((Date.now() - this.startTimestamp) / 1000))
     };
   }
 

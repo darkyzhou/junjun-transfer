@@ -7,6 +7,7 @@ specifiers:
   cross-env: 7.0.3
   nanoid: 3.1.23
   postcss: 8.2.6
+  postcss-100vh-fix: ^1.0.2
   prettier: 2.2.1
   qrcode: 1.4.4
   react: 17.0.2
@@ -20,6 +21,7 @@ specifiers:
 
 dependencies:
   nanoid: 3.1.23
+  postcss-100vh-fix: 1.0.2_postcss@8.2.6
   qrcode: 1.4.4
   react: 17.0.2
   react-copy-to-clipboard: 5.0.3_react@17.0.2
@@ -1171,6 +1173,15 @@ packages:
   /pngjs/3.4.0:
     resolution: {integrity: sha512-NCrCHhWmnQklfH4MtJMRjZ2a8c80qXeMlQMv2uVp9ISJMTt562SbGd6n2oq0PaPgKm7Z6pL9E2UlLIhC+SHL3w==}
     engines: {node: '>=4.0.0'}
+    dev: false
+
+  /postcss-100vh-fix/1.0.2_postcss@8.2.6:
+    resolution: {integrity: sha512-t7vqk9AfjI4fXmWlQCEiMZFFhi1hro4WlECINI1TV6Qh1XapUJE++gCmNr95F5Hen/+bz1OmO+SiSB9TZmFmSg==}
+    engines: {node: '>=10.0'}
+    peerDependencies:
+      postcss: ^8.1.0
+    dependencies:
+      postcss: 8.2.6
     dev: false
 
   /postcss-functions/3.0.0:

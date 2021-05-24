@@ -1,6 +1,7 @@
 module.exports = {
   plugins: {
     '@tailwindcss/jit': {},
-    autoprefixer: {}
+    autoprefixer: {},
+    'postcss-100vh-fix': {}
   }
 };

@@ -86,9 +86,9 @@ const App = () => {
   }, []);
 
   return (
-    <Background className="bg-gray-900 relative">
-      <div className="max-w-[850px] mx-auto h-screen flex flex-col">
-        <div className="relative z-10 flex-none text-center text-gray-300 my-8 p-1">
+    <Background className="bg-gray-900 relative h-screen">
+      <div className="max-w-[850px] mx-auto h-full flex flex-col">
+        <div className="relative z-10 flex-none text-center text-gray-300 my-4 md:my-8 p-1">
           <HeadTitle className="text-gray-200 font-zcool text-6xl sm:text-8xl tracking-wider mb-2 sm:mb-4">
             俊俊快传
           </HeadTitle>

@@ -64,7 +64,7 @@ export const ReceiverMain = ({ socket, serversInfo, errorMessage }) => {
   }, [fileReceiver, socket]);
 
   return (
-    <main className="p-4 md:p-8 lg:p-12 grid grid-cols-2 grid-rows-1 gap-4">
+    <main className="p-4 grid grid-cols-2 grid-rows-1 gap-4">
       <div className="flex flex-col items-center">
         <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 sm:mb-8">发送文件</h4>
         {!errorMessage && (

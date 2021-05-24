@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "nanoid": "3.1.23",
+    "postcss-100vh-fix": "^1.0.2",
     "qrcode": "1.4.4",
     "react": "17.0.2",
     "react-copy-to-clipboard": "5.0.3",

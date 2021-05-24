@@ -64,9 +64,9 @@ export const ReceiverMain = ({ socket, serversInfo, errorMessage }) => {
   }, [fileReceiver, socket]);
 
   return (
-    <main className="p-4 grid grid-cols-2 grid-rows-1 gap-4">
+    <main className="p-2 grid grid-cols-2 grid-rows-1 gap-4">
       <div className="flex flex-col items-center">
-        <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 sm:mb-8">发送文件</h4>
+        <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-2 xl:mb-4">发送文件</h4>
         {!errorMessage && (
           <>
             {transferStatus === 'initial' && (
@@ -96,7 +96,7 @@ export const ReceiverMain = ({ socket, serversInfo, errorMessage }) => {
         {errorMessage && <ErrorMessagePanel className="flex-1 w-full" message={errorMessage} />}
       </div>
       <div className="flex flex-col items-center">
-        <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-4 sm:mb-8">接收文件</h4>
+        <h4 className="text-gray-200 font-zcool text-3xl tracking-widest mb-2 xl:mb-4">接收文件</h4>
         {!fileMeta && <PanelContainer className="flex-1 text-gray-400 w-full">等待中...</PanelContainer>}
         {fileMeta && (
           <ReceiverFileCard

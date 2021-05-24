@@ -41,6 +41,10 @@ class JobController {
     try {
       action();
     } catch (error) {
+      console.error(
+        `[job-controller] error processing jobId#${socket?.handshake?.query?.jobId}`,
+        error.stack
+      );
       socket.emit('ERROR', { message: error.message });
       socket.disconnect(true);
     }

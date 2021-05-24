@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { SenderMain } from './components/SenderMain';
 import { makeJobId, makeReceiverSocket, makeSenderSocket } from './signal/signal-utils';
 import { Spinner } from './components/shared/Spinner';
@@ -36,7 +36,7 @@ const App = () => {
 
   useEffect(() => {
     window.onerror = function (message, url, lineNo, columnNo, error) {
-      LOGGER.error('caught javascript runtime error', {
+      LOGGER.error('[App] caught javascript runtime error', {
         message,
         url,
         lineNo,
@@ -52,18 +52,30 @@ const App = () => {
     if (isSender) {
       const id = makeJobId();
       socket = makeSenderSocket(id);
+      LOGGER.debug('[App] connecting to signal server as sender, jobId:', id);
       setJobId(id);
     } else {
       socket = makeReceiverSocket(jobId);
+      LOGGER.debug('[App] connecting to signal server as receiver, jobId:', jobId);
     }
-    socket.on('ERROR', ({ message }) => setErrorMessage(message));
-    socket.on('EVENT_PEER_LEFT', () => setErrorMessage('对方已经关闭俊俊快传'));
+    socket.on('ERROR', ({ message }) => {
+      LOGGER.error('[App] got error from signal server', message);
+      setErrorMessage(message);
+    });
+    socket.on('EVENT_PEER_LEFT', () => {
+      LOGGER.info('[App] the peer has left');
+      setErrorMessage('对方已经关闭俊俊快传');
+    });
     socket.on('disconnect', (reason) => {
+      LOGGER.info('[App] disconnected from signal server, reason:', reason);
       if (['io server disconnect', 'io client disconnect'].includes(reason)) {
-        setErrorMessage(`信令连接已断开：${reason}`);
+        setErrorMessage((prev) => `信令连接已断开：${reason}${prev ? `（${prev}）` : ''}`);
       }
     });
-    socket.on('connect', () => setSocket(socket));
+    socket.on('connect', () => {
+      LOGGER.info('[App] connected to signal server');
+      setSocket(socket);
+    });
   }, []);
 
   useEffect(async () => {

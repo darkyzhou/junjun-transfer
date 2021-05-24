@@ -3,8 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 
-const jobId = new URLSearchParams(window.location.search).get('job_id');
-const isSender = !jobId;
+window.addEventListener('beforeunload', function (e) {
+  e.preventDefault();
+  e.returnValue = '';
+});
 
 ReactDOM.render(
   <React.StrictMode>

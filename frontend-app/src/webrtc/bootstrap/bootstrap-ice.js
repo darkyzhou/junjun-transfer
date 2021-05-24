@@ -7,9 +7,6 @@ export function bootstrapIce(connection, socket) {
       socket.emit('SIGNAL_CANDIDATE', { candidate });
     }
   };
-  connection.onicecandidateerror = (event) => {
-    LOGGER.error('[bootstrap-ice] candidate error:', event);
-  };
   socket.on('SIGNAL_CANDIDATE', async ({ candidates }) => {
     LOGGER.debug('[bootstrap-ice] got remote candidates:', candidates);
     for (const candidate of candidates) {

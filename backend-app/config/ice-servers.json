@@ -2,18 +2,20 @@
   "version": "1",
   "servers": [
     {
-      "type": "stun",
-      "id": "local-test",
-      "url": "stun:192.168.20.88:3478",
-      "displayName": "Local Test A",
-      "description": "I am for local development only!"
+      "type": "turn",
+      "id": "darkyzhou-turn",
+      "url": "turn:ice.zqy.io",
+      "username": "public",
+      "credential": "public",
+      "displayName": "ice.zqy.io",
+      "description": "darkyzhou's TURN server in SYSU"
     },
     {
       "type": "stun",
-      "id": "local-test",
-      "url": "stun:127.0.0.1:3478",
-      "displayName": "Local Test B",
-      "description": "I am for local development only!"
+      "id": "darkyzhou-stun",
+      "url": "stun:ice.zqy.io",
+      "displayName": "ice.zqy.io",
+      "description": "darkyzhou's STUN server in SYSU"
     }
   ]
 }

@@ -46,7 +46,7 @@ ICE 服务器不属于俊俊快传本体的范畴，你需要在搭建俊俊快�
 
 俊俊快传需要连接 [ICE](https://en.wikipedia.org/wiki/Interactive_Connectivity_Establishment) 服务器才能让文件传输的双方能够成功连接到彼此。[ICE](https://en.wikipedia.org/wiki/Interactive_Connectivity_Establishment) 服务器分为 [STUN](https://en.wikipedia.org/wiki/Session_Traversal_Utilities_for_NAT) 服务器和 [TURN](https://en.wikipedia.org/wiki/Traversal_Using_Relays_around_NAT) 服务器，其中后者实质上是一种流量中转服务器，可以解决上面提到的双方位于对称型 NAT 网络下俊俊快传不能工作的问题，因为所有流量都将由这个中转服务器转发。
 
-你可以直接使用 `junjun.darkyzhou.net:3478` 这个 STUN 服务器，或者如果你需要自建的话，目前 GitHub 上可以搜索到许多 [ICE](https://en.wikipedia.org/wiki/Interactive_Connectivity_Establishment) 服务器的实现，有些也实现了 [TURN](https://en.wikipedia.org/wiki/Traversal_Using_Relays_around_NAT) 协议，可以参考它们在 README.md 里写的安装方法进行搭建。上述的 [https://junjun.darkyzhou.net](https://junjun.darkyzhou.net) 使用的 STUN 服务器基于 [jselbie/stunserver](https://github.com/jselbie/stunserver)。
+你可以直接使用 `junjun.darkyzhou.net:3478` 这个 STUN 服务器，或者如果你需要自建的话，目前 GitHub 上可以搜索到许多 [ICE](https://en.wikipedia.org/wiki/Interactive_Connectivity_Establishment) 服务器的实现，有些也实现了 [TURN](https://en.wikipedia.org/wiki/Traversal_Using_Relays_around_NAT) 协议，可以参考它们在 README.md 里写的安装方法进行搭建。上述的 [https://junjun.darkyzhou.net](https://junjun.darkyzhou.net) 使用的 STUN 服务器基于 [coturn/coturn](https://github.com/coturn/coturn)。
 
 #### Docker 安装
 
@@ -69,13 +69,13 @@ ICE 服务器不属于俊俊快传本体的范畴，你需要在搭建俊俊快�
 
 其中：
 
-| 参数        | 解释                                                         | 示例                               |
-| ----------- | ------------------------------------------------------------ | ---------------------------------- |
-| type        | ICE 服务器的类型，只能为 `stun` 或 `turn`                    | `stun`                             |
-| id          | ICE 服务器的 ID，建议使用全小写英文以及`-`                   | `local-test`                       |
+| 参数        | 解释                                                                             | 示例                               |
+| ----------- | -------------------------------------------------------------------------------- | ---------------------------------- |
+| type        | ICE 服务器的类型，只能为 `stun` 或 `turn`                                        | `stun`                             |
+| id          | ICE 服务器的 ID，建议使用全小写英文以及`-`                                       | `local-test`                       |
 | url         | ICE 服务器的 URL。如果是 `stun` 服务器，必须以 `stun:` 开头；`turn` 服务器类似。 | `stun:192.168.20.88:3478`          |
-| displayName | ICE 服务器的名称，它会显示在网页下方的“ICE 服务器”对应的列表中 | `Local Test A`                     |
-| description | ICE 服务器的介绍，它会显示在网页下方的“ICE 服务器”对应的列表中 | `I am for local development only!` |
+| displayName | ICE 服务器的名称，它会显示在网页下方的“ICE 服务器”对应的列表中                   | `Local Test A`                     |
+| description | ICE 服务器的介绍，它会显示在网页下方的“ICE 服务器”对应的列表中                   | `I am for local development only!` |
 
 然后，运行下面的命令即可：
 

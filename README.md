@@ -62,6 +62,15 @@ ICE 服务器不属于俊俊快传本体的范畴，你需要在搭建俊俊快�
       "url": "stun:192.168.20.88:3478",
       "displayName": "Local Test A",
       "description": "I am for local development only!"
+    },
+    {
+      "type": "turn",
+      "id": "local-test",
+      "url": "turn:192.168.20.88:3478",
+      "username": "user",
+      "credential": "password",
+      "displayName": "Local Test B",
+      "description": "I am for local development only!"
     }
   ]
 }
@@ -74,6 +83,8 @@ ICE 服务器不属于俊俊快传本体的范畴，你需要在搭建俊俊快�
 | type        | ICE 服务器的类型，只能为 `stun` 或 `turn`                                        | `stun`                             |
 | id          | ICE 服务器的 ID，建议使用全小写英文以及`-`                                       | `local-test`                       |
 | url         | ICE 服务器的 URL。如果是 `stun` 服务器，必须以 `stun:` 开头；`turn` 服务器类似。 | `stun:192.168.20.88:3478`          |
+| username    | ICE 服务器的用户名。STUN 服务器选填，TURN 服务器必填。                           | `user`                             |
+| credential  | ICE 服务器的密码。STUN 服务器选填，TURN 服务器必填。                             | `password`                         |
 | displayName | ICE 服务器的名称，它会显示在网页下方的“ICE 服务器”对应的列表中                   | `Local Test A`                     |
 | description | ICE 服务器的介绍，它会显示在网页下方的“ICE 服务器”对应的列表中                   | `I am for local development only!` |
 

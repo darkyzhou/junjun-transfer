@@ -5,6 +5,7 @@ module.exports = class Job {
     this.senderSocket = null;
     this.receiverSocket = null;
     this.cachedSenderOffer = null;
+    this.receiverLeft = false;
     this.cachedSenderCandidates = [];
   }
 
@@ -43,11 +44,11 @@ module.exports = class Job {
   }
 
   setReceiverSocket(socket) {
-    if (!socket) {
-      throw new Error('receiver socket cannot be empty');
-    }
     if (this.receiverSocket && this.receiverSocket !== socket) {
-      throw new Error('duplicate receiver socket with the same job id');
+      throw new Error('俊俊快传仅支持一对一传输');
+    }
+    if (this.receiverLeft) {
+      throw new Error('暂不支持在使用中途刷新浏览器页面');
     }
     if (this.receiverSocket === socket) {
       return;
@@ -72,6 +73,7 @@ module.exports = class Job {
       console.log(`[job#${this.id}] receiver socket ${socket.id} disconnected, reason: ${reason}`);
       this.senderSocket?.emit('EVENT_PEER_LEFT');
       this.receiverSocket = null;
+      this.receiverLeft = true;
       this.checkDestroy();
     });
     socket.on('EVENT_RECEIVER_PROGRESS', ({ avgSpeed, speed, current, goal }) =>

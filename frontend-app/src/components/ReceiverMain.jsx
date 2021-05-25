@@ -34,7 +34,7 @@ export const ReceiverMain = ({ socket, serversInfo, errorMessage }) => {
       }
     });
 
-    bootstrapper.bootstrap(serversInfo);
+    bootstrapper.bootstrap(serversInfo).then(() => socket.connect());
   }, []); // TODO: no socket for deps, it is ok?
 
   useEffect(() => {

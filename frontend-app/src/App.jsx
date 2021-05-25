@@ -48,6 +48,12 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    if (socket) {
+      window.addEventListener('unload', () => socket.close());
+    }
+  }, [socket]);
+
+  useEffect(() => {
     let socket;
     if (isSender) {
       const id = makeJobId();
@@ -58,6 +64,7 @@ const App = () => {
       socket = makeReceiverSocket(jobId);
       LOGGER.debug('[App] connecting to signal server as receiver, jobId:', jobId);
     }
+
     socket.on('ERROR', ({ message }) => {
       LOGGER.error('[App] got error from signal server', message);
       setErrorMessage(message);
@@ -74,8 +81,8 @@ const App = () => {
     });
     socket.on('connect', () => {
       LOGGER.info('[App] connected to signal server');
-      setSocket(socket);
     });
+    setSocket(socket);
   }, []);
 
   useEffect(async () => {

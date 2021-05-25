@@ -38,7 +38,7 @@ export const SenderMain = ({ socket, jobId, serversInfo, errorMessage }) => {
       setTransferStatus('ready');
     });
 
-    bootstrapper.bootstrap(serversInfo);
+    bootstrapper.bootstrap(serversInfo).then(() => socket.connect());
   }, []); // TODO: no socket for deps, is it ok?
 
   useEffect(() => {

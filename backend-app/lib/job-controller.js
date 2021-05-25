@@ -11,22 +11,22 @@ class JobController {
 
   init() {
     this.senderWs.on('connection', (socket) =>
-      this.#handleError(socket, () => {
+      this.handleError(socket, () => {
         const { jobId } = socket.handshake.query;
-        this.#checkJobId(jobId);
+        this.checkJobId(jobId);
         if (this.jobMap.has(jobId)) {
           throw new Error('当前传输码正在被使用中');
         }
 
-        const job = new Job(jobId, () => this.#onJobDestroy(jobId));
+        const job = new Job(jobId, () => this.onJobDestroy(jobId));
         job.setSenderSocket(socket);
         this.jobMap.set(jobId, job);
       })
     );
     this.receivedWs.on('connection', (socket) =>
-      this.#handleError(socket, () => {
+      this.handleError(socket, () => {
         const { jobId } = socket.handshake.query;
-        this.#checkJobId(jobId);
+        this.checkJobId(jobId);
         if (!this.jobMap.has(jobId)) {
           throw new Error('当前传输码已经失效');
         }
@@ -37,7 +37,7 @@ class JobController {
     );
   }
 
-  #handleError(socket, action) {
+  handleError(socket, action) {
     try {
       action();
     } catch (error) {
@@ -50,7 +50,7 @@ class JobController {
     }
   }
 
-  #checkJobId(jobId) {
+  checkJobId(jobId) {
     if (!jobId) {
       throw new Error('未指定传输码');
     }

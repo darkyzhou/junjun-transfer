@@ -2,8 +2,7 @@ import { PROTOCOL_ID } from '../constraints/protocol-constraints';
 
 const DEFAULT_CHANNEL_CONFIGURATION = {
   protocol: PROTOCOL_ID,
-  ordered: true,
-  maxRetransmits: 5
+  ordered: true
 };
 
 export function bootstrapDataChannel(connection) {

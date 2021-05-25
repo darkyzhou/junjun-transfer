@@ -29,7 +29,7 @@ export class TransferSpeedMonitor {
     this.goal = goal;
     this.cancelled = false;
     this.startTimestamp = Date.now();
-    setTimeout(() => this.#emitSpeed(), DURATION);
+    setTimeout(() => this.emitSpeed(), DURATION);
   }
 
   cancel() {
@@ -51,7 +51,7 @@ export class TransferSpeedMonitor {
     };
   }
 
-  #emitSpeed() {
+  emitSpeed() {
     if (this.current === this.goal || this.cancelled) {
       return;
     }
@@ -64,6 +64,6 @@ export class TransferSpeedMonitor {
       })
     );
 
-    setTimeout(() => this.#emitSpeed(), DURATION);
+    setTimeout(() => this.emitSpeed(), DURATION);
   }
 }

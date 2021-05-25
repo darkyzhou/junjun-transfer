@@ -15,20 +15,20 @@ class Logger {
 
   debug(...args) {
     console.debug(...args);
-    this.target.dispatchEvent(new CustomEvent(EVENT_NEW_LOG, { detail: this.#handleMessage('debug', args) }));
+    this.target.dispatchEvent(new CustomEvent(EVENT_NEW_LOG, { detail: this.handleMessage('debug', args) }));
   }
 
   info(...args) {
     console.info(...args);
-    this.target.dispatchEvent(new CustomEvent(EVENT_NEW_LOG, { detail: this.#handleMessage('info', args) }));
+    this.target.dispatchEvent(new CustomEvent(EVENT_NEW_LOG, { detail: this.handleMessage('info', args) }));
   }
 
   error(...args) {
     console.error(...args);
-    this.target.dispatchEvent(new CustomEvent(EVENT_NEW_LOG, { detail: this.#handleMessage('error', args) }));
+    this.target.dispatchEvent(new CustomEvent(EVENT_NEW_LOG, { detail: this.handleMessage('error', args) }));
   }
 
-  #handleMessage(level, messages) {
+  handleMessage(level, messages) {
     const serialized = messages.map((m) => (typeof m === 'object' ? JSON.stringify(m) : m));
     return {
       level,

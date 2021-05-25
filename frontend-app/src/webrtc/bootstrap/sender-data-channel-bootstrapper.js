@@ -22,13 +22,13 @@ export class SenderDataChannelBootstrapper {
 
   async bootstrap(serversInfo) {
     try {
-      await this.#initDataChannel(serversInfo);
+      await this.initDataChannel(serversInfo);
     } catch (error) {
       LOGGER.error('[sender-connection-bootstrap] error bootstrapping:', error);
     }
   }
 
-  async #initDataChannel(serversInfo) {
+  async initDataChannel(serversInfo) {
     this.connection = makeStunConnection(serversInfo);
     this.channel = bootstrapDataChannel(this.connection);
     this.channel.onopen = () => {

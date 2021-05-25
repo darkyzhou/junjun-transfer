@@ -21,13 +21,13 @@ export class ReceiverDataChannelBootstrapper {
 
   async bootstrap(serversInfo) {
     try {
-      await this.#doBootstrap(serversInfo);
+      await this.doBootstrap(serversInfo);
     } catch (error) {
       LOGGER.error('[receiver-data-channel-bootstrapper] error', error);
     }
   }
 
-  async #doBootstrap(serversInfo) {
+  async doBootstrap(serversInfo) {
     this.connection = makeStunConnection(serversInfo);
     this.connection.ondatachannel = ({ channel }) =>
       this.target.dispatchEvent(
@@ -39,10 +39,10 @@ export class ReceiverDataChannelBootstrapper {
       );
     bootstrapIce(this.connection, this.signalSocket);
 
-    this.signalSocket.on('SIGNAL_OFFER', ({ offer }) => this.#handleOffer(offer));
+    this.signalSocket.on('SIGNAL_OFFER', ({ offer }) => this.handleOffer(offer));
   }
 
-  async #handleOffer(offer) {
+  async handleOffer(offer) {
     console.assert(offer);
     LOGGER.info('[receiver-data-channel-bootstrapper] received remote offer:', offer);
     await this.connection.setRemoteDescription(new RTCSessionDescription(offer));

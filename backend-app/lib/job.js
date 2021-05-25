@@ -38,7 +38,7 @@ module.exports = class Job {
       console.log(`[job#${this.id}] sender socket ${socket.id} disconnected, reason: ${reason}`);
       this.receiverSocket?.emit('EVENT_PEER_LEFT');
       this.senderSocket = null;
-      this.#checkDestroy();
+      this.checkDestroy();
     });
   }
 
@@ -72,14 +72,14 @@ module.exports = class Job {
       console.log(`[job#${this.id}] receiver socket ${socket.id} disconnected, reason: ${reason}`);
       this.senderSocket?.emit('EVENT_PEER_LEFT');
       this.receiverSocket = null;
-      this.#checkDestroy();
+      this.checkDestroy();
     });
     socket.on('EVENT_RECEIVER_PROGRESS', ({ avgSpeed, speed, current, goal }) =>
       this.senderSocket?.emit('EVENT_RECEIVER_PROGRESS', { avgSpeed, speed, current, goal })
     );
   }
 
-  #checkDestroy() {
+  checkDestroy() {
     if (!this.senderSocket && !this.receiverSocket) {
       console.log(`[job#${this.id}] destroyed due to disconnected sender and receiver`);
       this.onDestroy();

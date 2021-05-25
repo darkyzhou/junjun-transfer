@@ -7,9 +7,9 @@ export const EVENT_CHANNEL_CLOSED = 'channel-closed';
 export class DataChannelReceiver {
   constructor(channel) {
     this.target = new EventTarget();
-    channel.onmessage = ({ data }) => this.#onReceiveData(data);
-    channel.onclose = () => this.#onChannelClose();
-    this.#reset();
+    channel.onmessage = ({ data }) => this.onReceiveData(data);
+    channel.onclose = () => this.onChannelClose();
+    this.reset();
   }
 
   addEventListener(eventName, listener) {
@@ -23,7 +23,7 @@ export class DataChannelReceiver {
   receive(bytesToReceive) {
     return new Promise(async (resolve, reject) => {
       try {
-        await this.#doReceive(bytesToReceive, resolve);
+        await this.doReceive(bytesToReceive, resolve);
       } catch (error) {
         LOGGER.error('[data-channel-receiver] error', error);
         reject(error);
@@ -31,11 +31,11 @@ export class DataChannelReceiver {
     });
   }
 
-  async #doReceive(bytesToReceive, resolve) {
-    this.#reset(bytesToReceive, resolve);
+  async doReceive(bytesToReceive, resolve) {
+    this.reset(bytesToReceive, resolve);
   }
 
-  #onReceiveData(receivedBuffer) {
+  onReceiveData(receivedBuffer) {
     if (!this.currentResolve) {
       LOGGER.error('[data-channel-receiver] ignored newly received arraybuffer');
       return;
@@ -59,11 +59,11 @@ export class DataChannelReceiver {
       console.assert(this.currentResolve);
       this.target.dispatchEvent(new CustomEvent(EVENT_RECEIVE_COMPLETED));
       this.currentResolve(this.arrayBuffer);
-      this.#reset();
+      this.reset();
     }
   }
 
-  #onChannelClose() {
+  onChannelClose() {
     if (this.receivedBytes < this.totalBytes) {
       this.target.dispatchEvent(
         new CustomEvent(EVENT_CHANNEL_CLOSED, {
@@ -76,7 +76,7 @@ export class DataChannelReceiver {
     }
   }
 
-  #reset(totalBytes = 0, resolve = null) {
+  reset(totalBytes = 0, resolve = null) {
     this.currentResolve = resolve;
     this.totalBytes = totalBytes;
     this.arrayBuffer = new ArrayBuffer(totalBytes);

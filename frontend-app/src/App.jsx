@@ -86,9 +86,9 @@ const App = () => {
   }, []);
 
   return (
-    <Background className="bg-gray-900 relative h-screen">
-      <div className="max-w-[850px] mx-auto h-full flex flex-col">
-        <div className="relative z-10 flex-none text-center text-gray-300 my-2 xl:my-6">
+    <Background className="bg-gray-900 relative">
+      <div className="max-w-[850px] mx-auto h-screen flex flex-col">
+        <div className="relative z-10 flex-none text-center text-gray-300 my-4 xl:my-6">
           <HeadTitle className="text-gray-200 font-zcool text-6xl sm:text-8xl tracking-wider mb-2">俊俊快传</HeadTitle>
           <p className="text-sm sm:text-xl text-gray-400 tracking-wider">基于 WebRTC 技术的浏览器点对点文件传输工具</p>
           <p className="flex items-center justify-center text-sm">

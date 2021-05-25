@@ -59,7 +59,7 @@ class JobController {
     }
   }
 
-  #onJobDestroy(jobId) {
+  onJobDestroy(jobId) {
     this.jobMap.delete(jobId);
   }
 }

@@ -4,9 +4,9 @@
 <h2 align="center">俊俊快传</h2>
 <p align="center">
   <img alt="GitHub" src="https://img.shields.io/github/license/darkyzhou/junjun-transfer">
-  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/darkyzhou/junjun-transfer">
   <img alt="GitHub release (latest SemVer)" src="https://img.shields.io/github/v/release/darkyzhou/junjun-transfer">
-  <img alt="GitHub Release Date" src="https://img.shields.io/github/release-date/darkyzhou/junjun-transfer">
+  <img alt="Docker Cloud Build Status" src="https://img.shields.io/docker/cloud/build/darkyzhou/junjun-transfer">
+  <img alt="Docker Pulls" src="https://img.shields.io/docker/pulls/darkyzhou/junjun-transfer">
   <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/darkyzhou/junjun-transfer?style=social">
 </p>
 

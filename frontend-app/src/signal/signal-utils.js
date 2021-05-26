@@ -2,7 +2,7 @@ import { nanoid } from 'nanoid';
 import { io } from 'socket.io-client';
 
 export function makeJobId() {
-  return nanoid(12);
+  return nanoid(6);
 }
 
 const SOCKET_COMMON_CONFIG = {

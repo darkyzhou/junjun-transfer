@@ -10,7 +10,7 @@ import { LogPanel } from './components/LogPanel';
 import { IceServersPanel } from './components/IceServersPanel';
 
 const params = new URLSearchParams(window.location.search);
-const jobIdFromQuery = params.get('job_id');
+const jobIdFromQuery = params.get('id');
 const isSender = !jobIdFromQuery;
 
 const Background = styled.div`

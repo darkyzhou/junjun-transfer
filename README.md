@@ -24,7 +24,11 @@
 
 目前，俊俊快传有一个位于香港阿里云服务器的实例：[https://junjun.darkyzhou.net](https://junjun.darkyzhou.net)。
 
+> 注意，请使用尽可能新版的浏览器来使用 WebRTC。这不仅是因为新版浏览器对于 WebRTC 的实现更成熟、稳定，也因为俊俊快传的前端项目使用了许多较新的 API。
+
 当你打开网页之后，点击左侧卡片选中要传输的文件，然后就能够将二维码或链接分享给接收文件的朋友，在朋友打开链接之后，如果 WebRTC 链接成功建立，那么你就可以点击 “发送” 按钮将文件传输给对方了。
+
+> 请不要在挂着代理的状态下打开俊俊快传，代理会影响到 WebRTC 识别并建立连接。
 
 ![](https://github.com/darkyzhou/junjun-transfer/raw/master/preview.jpg)
 

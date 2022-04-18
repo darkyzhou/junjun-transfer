@@ -8,7 +8,6 @@ specifiers:
   nanoid: 3.1.23
   postcss: 8.2.6
   postcss-100vh-fix: ^1.0.2
-  prettier: 2.2.1
   qrcode: 1.4.4
   react: 17.0.2
   react-copy-to-clipboard: 5.0.3
@@ -37,7 +36,6 @@ devDependencies:
   autoprefixer: 10.2.5_postcss@8.2.6
   cross-env: 7.0.3
   postcss: 8.2.6
-  prettier: 2.2.1
   vite: 2.2.4
 
 packages:
@@ -809,6 +807,7 @@ packages:
     resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
+    requiresBuild: true
     optional: true
 
   /function-bind/1.1.1:
@@ -1241,12 +1240,6 @@ packages:
       colorette: 1.2.2
       nanoid: 3.1.23
       source-map: 0.6.1
-
-  /prettier/2.2.1:
-    resolution: {integrity: sha512-PqyhM2yCjg/oKkFPtTGUojv7gnZAoG80ttl45O6x2Ug/rMJw4wcc9k6aaf2hibP7BGVCCM33gZoGjyvt9mm16Q==}
-    engines: {node: '>=10.13.0'}
-    hasBin: true
-    dev: true
 
   /pretty-hrtime/1.0.3:
     resolution: {integrity: sha1-t+PqQkNaTJsnWdmeDyAesZWALuE=}

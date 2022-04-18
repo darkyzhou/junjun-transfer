@@ -4,7 +4,6 @@ specifiers:
   exit-hook-plus: ^0.2.0
   express: ^4.17.1
   nodemon: ^2.0.7
-  prettier: ^2.2.1
   socket.io: 4.1.2
 
 dependencies:
@@ -14,7 +13,6 @@ dependencies:
 
 devDependencies:
   nodemon: 2.0.7
-  prettier: 2.2.1
 
 packages:
 
@@ -874,12 +872,6 @@ packages:
   /prepend-http/2.0.0:
     resolution: {integrity: sha1-6SQ0v6XqjBn0HN/UAddBo8gZ2Jc=}
     engines: {node: '>=4'}
-    dev: true
-
-  /prettier/2.2.1:
-    resolution: {integrity: sha512-PqyhM2yCjg/oKkFPtTGUojv7gnZAoG80ttl45O6x2Ug/rMJw4wcc9k6aaf2hibP7BGVCCM33gZoGjyvt9mm16Q==}
-    engines: {node: '>=10.13.0'}
-    hasBin: true
     dev: true
 
   /proxy-addr/2.0.6:

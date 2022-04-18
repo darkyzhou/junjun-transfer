@@ -10,8 +10,6 @@ WORKDIR /app
 COPY server /app
 RUN npm install
 COPY --from=build /app/dist /app/public
-
 EXPOSE 8080
 CMD ["node", "index.js"]
-
 LABEL org.opencontainers.image.authors="darkyoooooo@gmail.com"

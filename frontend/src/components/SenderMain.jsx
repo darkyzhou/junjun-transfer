@@ -20,7 +20,7 @@ export const SenderMain = ({ socket, jobId, serversInfo, errorMessage }) => {
 
   const receiverUrl = useMemo(() => {
     const url = new URL(window.location.href);
-    url.searchParams.set('id', jobId);
+    url.hash = jobId;
     return url.toString();
   }, [jobId]);
 

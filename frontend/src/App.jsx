@@ -9,9 +9,8 @@ import styled from 'styled-components';
 import { LogPanel } from './components/LogPanel';
 import { IceServersPanel } from './components/IceServersPanel';
 
-const params = new URLSearchParams(window.location.search);
-const jobIdFromQuery = params.get('id');
-const isSender = !jobIdFromQuery;
+const jobIdFromHash = window.location.hash.slice(1);
+const isSender = !jobIdFromHash;
 
 const Background = styled.div`
   background-color: #111827;
@@ -25,7 +24,7 @@ const HeadTitle = styled.h2`
 `;
 
 const App = () => {
-  const [jobId, setJobId] = useState(jobIdFromQuery);
+  const [jobId, setJobId] = useState(jobIdFromHash);
   const [socket, setSocket] = useState(null);
   const [iceServersInfo, setIceServersInfo] = useState(null);
   const [showIceServers, setShowIceServers] = useState(false);
@@ -183,14 +182,6 @@ const App = () => {
               darkyzhou
             </a>
           </p>
-          <p>
-            Emoji 图标来自 Twitter，遵循{' '}
-            <a className="underline" href="https://creativecommons.org/licenses/by/4.0/">
-              CC-BY 4.0
-            </a>{' '}
-            协议
-          </p>
-          <p>猫咪图片来自 master1305、wirestock 和 winkimages</p>
         </footer>
       </div>
     </Background>

@@ -1,8 +1,10 @@
-import { nanoid } from 'nanoid';
+import { customAlphabet } from 'nanoid';
 import { io } from 'socket.io-client';
 
+const nanoid = customAlphabet('1234567890abcdef', 5);
+
 export function makeJobId() {
-  return nanoid(6);
+  return nanoid();
 }
 
 const SOCKET_COMMON_CONFIG = {

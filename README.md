@@ -20,6 +20,8 @@
 
 本项目分为前端后端两个部分，其中前端 SPA 基于 Vite、React、TailwindCSS、socket.io，后端基于 Express、socket.io。
 
+Emoji 图标来自 Twitter，遵循 CC-BY 4.0 协议。猫咪图片来自 master1305、wirestock 和 winkimages。
+
 ### 使用
 
 目前，俊俊快传有一个位于香港阿里云服务器的实例：[https://junjun.darkyzhou.net](https://junjun.darkyzhou.net)。

@@ -9,7 +9,7 @@ const servers = require('./config/ice-servers.json'); // TODO: should check vali
 const app = express();
 const http = createServer(app);
 
-app.use(helmet({ contentSecurityPolicy: false, crossOriginResourcePolicy: false }));
+app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
 app.get('/ice', (_, res) => {
   res.header('content-type', 'application/json; charset=utf-8').send(servers);
 });

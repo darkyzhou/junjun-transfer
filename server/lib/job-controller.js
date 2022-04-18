@@ -1,6 +1,6 @@
 const Job = require('./job');
 
-const JOB_ID_PATTERN = /^[A-Za-z0-9_-]{6}$/;
+const JOB_ID_PATTERN = /^[A-Za-z0-9_-]{5}$/;
 
 class JobController {
   constructor(senderWs, receiverWs) {

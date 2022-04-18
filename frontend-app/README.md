@@ -1,3 +1,0 @@
-# frontend-app
-
-WIP

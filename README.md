@@ -95,7 +95,7 @@ ICE 服务器不属于俊俊快传本体的范畴，你需要在搭建俊俊快�
 然后，运行下面的命令即可：
 
 ```plain
-docker run -p 80:80 -v ./ice-servers.json:/backend-app/config/ice-servers.json --restart always darkyzhou/junjun-transfer
+docker run -d -p 80:80 --mount type=bind,source=./ice-servers.json,target=/backend-app/config/ice-servers.json --restart unless-stopped darkyzhou/junjun-transfer
 ```
 
 俊俊快传的 Docker 镜像只暴露了 80 端口作为 HTTP 入口，如果你需要 HTTPS，那么你需要手动设置一个反向代理，以及对应的证书。

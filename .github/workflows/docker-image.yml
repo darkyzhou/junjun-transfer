@@ -2,20 +2,27 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Docker Login
-      uses: docker/login-action@v1
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
-    - name: Build and push Docker images
-      uses: docker/build-push-action@v2
-      with:
-        push: true
-        tags: darkyzhou/junjun-transfer:latest
+      - uses: actions/checkout@v3
+      - name: Docker Login
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build frontend image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          target: build
+      - name: Build final image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: darkyzhou/junjun-transfer:latest
+          target: final

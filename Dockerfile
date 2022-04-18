@@ -1,11 +1,11 @@
-FROM node:alpine as build
+FROM node:alpine AS build
 WORKDIR /app
 COPY frontend/package.json /app
 RUN npm install
 COPY frontend /app
 RUN npm run build
 
-FROM node:alpine
+FROM node:alpine AS final
 WORKDIR /app
 COPY server /app
 RUN npm install

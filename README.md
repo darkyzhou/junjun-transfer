@@ -97,14 +97,10 @@ ICE 服务器不属于俊俊快传本体的范畴，你需要在搭建俊俊快�
 然后，运行下面的命令即可：
 
 ```plain
-docker run -d -p 80:80 --mount type=bind,source=./ice-servers.json,target=/backend-app/config/ice-servers.json --restart unless-stopped darkyzhou/junjun-transfer
+docker run -d -p 80:8080 --mount type=bind,source=(ice-servers.json的绝对目录),target=/app/config/ice-servers.json --restart unless-stopped darkyzhou/junjun-transfer
 ```
 
-俊俊快传的 Docker 镜像只暴露了 80 端口作为 HTTP 入口，如果你需要 HTTPS，那么你需要手动设置一个反向代理，以及对应的证书。
-
-#### Kubernetes 安装
-
-俊俊快传也自带了一份用于部署到 Kubernetes 集群的 YAML 文件，请参考 [deploy-k8s.yaml](https://github.com/darkyzhou/junjun-transfer/blob/master/deploy-k8s.yaml)。
+俊俊快传的 Docker 镜像只暴露了 8080 端口作为 HTTP 入口，如果你需要 HTTPS，那么你需要手动设置一个反向代理，以及对应的证书。
 
 ### 缺陷
 

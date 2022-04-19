@@ -2,14 +2,12 @@ const { createServer } = require('http');
 const { Server } = require('socket.io');
 const express = require('express');
 const expressStaticGzip = require('express-static-gzip');
-const helmet = require('helmet');
 const { JobController } = require('./lib/job-controller');
 const servers = require('./config/ice-servers.json'); // TODO: should check validity
 
 const app = express();
 const http = createServer(app);
 
-app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
 app.get('/ice', (_, res) => {
   res.header('content-type', 'application/json; charset=utf-8').send(servers);
 });

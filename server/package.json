@@ -12,7 +12,6 @@
   "dependencies": {
     "express": "^4.17.1",
     "express-static-gzip": "^2.1.5",
-    "helmet": "^5.0.2",
     "socket.io": "4.1.2"
   }
 }

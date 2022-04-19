@@ -13,7 +13,9 @@ app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false 
 app.get('/ice', (_, res) => {
   res.header('content-type', 'application/json; charset=utf-8').send(servers);
 });
-app.use('/', expressStaticGzip('./public'));
+if (!process.env.DISABLE_STATIC) {
+  app.use('/', expressStaticGzip('./public'));
+}
 
 const senderWs = new Server(http, { path: '/signal/sender' });
 const receiverWs = new Server(http, { path: '/signal/receiver' });

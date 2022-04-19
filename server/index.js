@@ -1,12 +1,21 @@
 const { createServer } = require('http');
 const { Server } = require('socket.io');
 const express = require('express');
+const cors = require('cors');
 const expressStaticGzip = require('express-static-gzip');
 const { JobController } = require('./lib/job-controller');
 const servers = require('./config/ice-servers.json'); // TODO: should check validity
 
 const app = express();
 const http = createServer(app);
+
+if (process.env.CORS_ORIGIN) {
+  app.use(
+    cors({
+      origin: process.env.CORS_ORIGIN
+    })
+  );
+}
 
 app.get('/ice', (_, res) => {
   res.header('content-type', 'application/json; charset=utf-8').send(servers);

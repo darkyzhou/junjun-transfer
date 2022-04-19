@@ -85,7 +85,8 @@ const App = () => {
   }, []);
 
   useEffect(async () => {
-    const response = await fetch('/ice');
+    const url = process.env.SERVER_URL ? new URL('/ice', process.env.SERVER_URL) : '/ice';
+    const response = await fetch(url, { credentials: 'omit' });
     const info = await response.json();
     LOGGER.debug('[App] got ice info', info);
     setIceServersInfo(info);

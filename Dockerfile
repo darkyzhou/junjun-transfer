@@ -1,8 +1,10 @@
+ARG SERVER_URL
 FROM node:alpine AS build
 WORKDIR /app
 COPY frontend/package.json /app
 RUN npm install
 COPY frontend /app
+ENV SERVER_URL=$SERVER_URL
 RUN npm run build
 
 FROM node:alpine AS final

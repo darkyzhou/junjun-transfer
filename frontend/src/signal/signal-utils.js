@@ -13,7 +13,7 @@ const SOCKET_COMMON_CONFIG = {
 };
 
 export function makeSenderSocket(jobId) {
-  return io({
+  return io(process.env.SERVER_URL || location.origin, {
     transports: ['websocket'],
     path: '/signal/sender',
     query: {
@@ -24,7 +24,7 @@ export function makeSenderSocket(jobId) {
 }
 
 export function makeReceiverSocket(jobId) {
-  return io({
+  return io(process.env.SERVER_URL || location.origin, {
     transports: ['websocket'],
     path: '/signal/receiver',
     query: {

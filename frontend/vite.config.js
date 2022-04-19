@@ -1,19 +1,21 @@
 import { defineConfig } from 'vite';
 import reactRefresh from '@vitejs/plugin-react-refresh';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [reactRefresh()],
+  define: {
+    'process.env.SERVER_URL': process.env.SERVER_URL || ''
+  },
   build: { target: 'es2018' },
   server: {
     proxy: {
       '/signal': {
-        target: 'ws://localhost:4500',
+        target: 'ws://localhost:8080',
         changeOrigin: true,
         ws: true
       },
       '/ice': {
-        target: 'http://localhost:4600'
+        target: 'http://localhost:8080'
       }
     }
   }
